@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Wings Vehicle Dispatcher</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/CustomStyleWings.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/tag/chosen.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-material-design.min.css" rel="stylesheet" />
+    <link href="~/Content/ripples.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top shade " id="top-nav-bar">
+        <div class="container ">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content margin-top-20" style="float:left;width:100%">
+        @RenderBody()
+    </div>
+    <div class="col-xs-12">
+        <footer class="bottom-fixed-footer footer-bg">
+            @*<p class="heading-xs">@DateTime.Now.Year - Transcend Drive Taxi Dispatcher - Powered By Hypercent</p>*@
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/material.min.js"></script>
+    <script src="~/Scripts/ripples.min.js"></script>
+    <script>
+        $(function () {
+            $.material.init();
+        });
+    </script>
+</body>
+</html>

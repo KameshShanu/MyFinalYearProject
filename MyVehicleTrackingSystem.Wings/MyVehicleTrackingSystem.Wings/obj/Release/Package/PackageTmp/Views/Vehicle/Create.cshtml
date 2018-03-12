@@ -1,0 +1,262 @@
+﻿@model Hypercent.Wings.Models.VehicleListViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm(new { id = "vehiForm" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="well margin-top-20 create-forms">
+
+                <div class="formtitle row remove-margin form-heading">
+                    <div class="form-icon light-blue col-xs-2"><i class="fa fa-truck"></i></div>
+                    <div class="text-light-blue col-xs-10">Add New Vehicle</div>
+                </div>
+                <br>
+                <!-- Column 1 -->
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @if (ViewData["Success"] != null)
+                        {
+                            <span class="success-msg margin-top-bottom-30" style="color:forestgreen"> @ViewData["Success"].ToString() </span>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.VehicleNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VehicleNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LicenseNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.LicenseNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LicenseExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="LicenseExpDate" id="LicenseExpDate" type="text" readonly required/>*@
+                                    @Html.EditorFor(model => model.LicenseExpDate, new { htmlAttributes = new {  @class = "LicenseExpDate form-control" } })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errLicenseExpDate">@Html.ValidationMessageFor(model => model.LicenseExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InsuranceNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.InsuranceNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.InsuranceNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.InsuranceExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="InsuranceExpDate" id="InsuranceExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.InsuranceExpDate, new { htmlAttributes = new { @class = "InsuranceExp form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errInsuranceExp">@Html.ValidationMessageFor(model => model.InsuranceExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GoodsNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.GoodsNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.GoodsNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GoodsExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="GoodsExpDate" id="GoodsExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.GoodsExpDate, new { htmlAttributes = new { @class = "GoodsExp form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errGoodsExp">@Html.ValidationMessageFor(model => model.GoodsExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleMFYear, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.VehicleMFYear, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VehicleMFYear, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EngineNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.EngineNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.EngineNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ChassisNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.ChassisNumber, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ChassisNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleMake, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.VehicleMake, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VehicleMake, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleModel, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.VehicleModel, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.VehicleModel, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Column 1 -->
+                <!-- Column 2 -->
+                <div class="col-md-6">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FirstRegistrationDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date reg-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="FirstRegistrationDate" id="FirstRegistrationDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.FirstRegistrationDate, new { htmlAttributes = new { @class = "FirstRegistration form-control" } })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errFirstRegistration">@Html.ValidationMessageFor(model => model.FirstRegistrationDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FireReportExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="FireReportExpDate" id="FireReportExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.FireReportExpDate, new { htmlAttributes = new { @class = "FireReportExp form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errFireReportExp">@Html.ValidationMessageFor(model => model.FireReportExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CalibrationReportExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="CalibrationReportExpDate" id="CalibrationReportExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.CalibrationReportExpDate, new { htmlAttributes = new { @class = "CalibrationReportExp form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errCalibrationReportExp">@Html.ValidationMessageFor(model => model.CalibrationReportExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmissionTestExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="EmissionTestExpDate" id="EmissionTestExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.EmissionTestExpDate, new { htmlAttributes = new { @class = "EmissionTestExp form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errEmissionTestExp">@Html.ValidationMessageFor(model => model.EmissionTestExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleFitnessExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="VehicleFitnessExpDate" id="VehicleFitnessExpDate" type="text" readonly required />*@
+                                    @Html.EditorFor(model => model.VehicleFitnessExpDate, new { htmlAttributes = new { @class = "VehicleFitnessExp form-control" } })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                <div class="errVehicleFitnessExp">@Html.ValidationMessageFor(model => model.VehicleFitnessExpDate, "", new { @class = "text-danger" })</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DangerousLicenseExpDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker-DangerousLicenseExpDate" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="DangerousLicenseExpDate" id="DangerousLicenseExpDate" type="text" readonly />*@
+                                    @Html.EditorFor(model => model.DangerousLicenseExpDate, new { htmlAttributes = new { @class = "form-control"} })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i> </span>@*<i style="color:#f0674d" class="fa fa-times-circle fa-lg" onclick="ClearDangerousLicenseExpDate()"></i>*@
+                                </div>
+                                @*<button type="button" onclick="ClearDangerousLicenseExpDate()">Clear</button>*@
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                @Html.ValidationMessageFor(model => model.DangerousLicenseExpDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HighSecurityPassExpiryDate, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                    @*<input class="form-control" name="DangerousLicenseExpDate" id="DangerousLicenseExpDate" type="text" readonly />*@
+                                    @Html.EditorFor(model => model.HighSecurityPassExpiryDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i> </span>@*<i style="color:#f0674d" class="fa fa-times-circle fa-lg" onclick="ClearDangerousLicenseExpDate()"></i>*@
+                                </div>
+                                @*<button type="button" onclick="ClearDangerousLicenseExpDate()">Clear</button>*@
+                                @*@Html.EditorFor(model => model.License, new { htmlAttributes = new { @Value = DateTime.Now.ToString("yyyy-MM-dd"), @class = "form-control", @style = "width:300px;height:30px" } })*@
+                                @Html.ValidationMessageFor(model => model.HighSecurityPassExpiryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleDeliveryType, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(m => m.VehicleDeliveryType, Model.VehicleDelivery, new { @id = "VehicleType", @class = "form-control required" })
+                                 @Html.ValidationMessageFor(model => model.VehicleDeliveryType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group" id="divVehicleType" hidden>
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-6">
+                                @Html.DropDownListFor(m => m.Quantity, Model.QuantityType, new { @id = "QuantityType", @class = "form-control required" })
+                                @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br /><br />
+                        <div class="form-group">
+                            @Html.ActionLink("Back", "Index", "", new { @class = "btn btn-info btn-raised" })
+                            <input type="submit" id="submit" name="button" value="SAVE VEHICLE" class="btn btn-default btn-raised" />
+                            <input type="submit" id="submit" name="button" value="SAVE & ADD NEW VEHICLE" class="btnSubmit btn btn-default btn-raised" />
+                        </div>
+                    </div>
+                </div>
+                <!-- /Column 2 -->
+                <div class="row remove-margin clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/LeapRunner/Vehicle/create.js"></script>
+}

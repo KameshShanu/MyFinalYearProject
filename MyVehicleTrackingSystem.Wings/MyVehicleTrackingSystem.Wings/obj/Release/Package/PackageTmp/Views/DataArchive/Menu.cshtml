@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "Data Archive";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .admin-functions{
+       background-color:#fff;
+    }
+    .reporttitle{
+    background-color: #ffcc07;
+    padding: 20px;
+    }
+</style>
+<br />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="admin-functions">
+            <h4 class="reporttitle margin-bottom-20">Data Archive Functions</h4>
+            <div class="padding-10-30  margin-sides-30">                
+                <div class="panel panel-default">
+                    <a href="@Url.Action("Index", "DataArchive")">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2"><i class="fa fa-car fa-2"></i></div>
+                                <div class="col-xs-10"><span>Archive Trips</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="panel panel-default">
+                    <a href="@Url.Action("ArchiveTripIndex", "DataArchive")">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-xs-2"><i class="fa fa-users fa-2"></i></div>
+                                <div class="col-xs-10"><span>View Archived Trip List</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

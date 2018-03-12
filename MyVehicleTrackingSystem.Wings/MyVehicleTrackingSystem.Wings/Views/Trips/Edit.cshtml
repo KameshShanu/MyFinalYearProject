@@ -1,0 +1,513 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.TripViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="padding-well">
+    <div class="row well margin-top-20 create-forms">
+        <div class="row">
+            <span id="validationError" class="text-danger"></span>
+        </div>
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="row checkbox-highlight margin-bottom-10 padding-all-10">
+                    <div class="text-light-teal col-xs-10"><b>@Model.VoucherNumber</b></div>
+                    <span class="label-success"></span>
+                </div>
+                <div class="col-md-12 clear-padding-right">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 clear-padding-right">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10">
+                        <div class="row remove-margin form-heading-sm">
+                            <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-car"></i></div>
+                            <div class="text-light-teal col-xs-10">Information of Vehicle Assigned</div>
+                        </div>
+                        <div class="row remove-margin padding-0-10 tbl-card">
+                            <table class="table-responsive table-bordered">
+                                <tr>
+                                    <th><span class="label label-sux">Vehicle No</span></th>
+                                    <th><span class="label label-sux">Vehicle Type</span></th>
+                                    <th><span class="label label-sux">Vehicle Make</span></th>
+                                    <th><span class="label label-sux">Vehicle Model</span></th>
+                                    <th><span class="label label-sux">Meter Reading Start</span></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="control-label">@Html.DisplayFor(modelItem => Model.VehicleList.VehicleNumber)</label>
+                                        <input type="hidden" name="VehicleId" id="VehicleId" value="@Model.VehicleList.VehicleId" />
+                                        <input type="hidden" name="VehicleNumber" id="VehicleNumber" value="@Model.VehicleList.VehicleNumber" />
+                                    </td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.VehicleList.VehicleType)</label></td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.VehicleList.VehicleMake)</label></td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.VehicleList.VehicleModel)</label></td>
+                                    <td id="currentMeterVal">
+                                        <label class="control-label">@Html.DisplayFor(modelItem => Model.MeterReadingOut)</label>
+                                        <input type="hidden" name="MeterReadingOut" id="meterReadingOut" value="@Model.MeterReadingOut" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="row remove-margin padding-0-10 tbl-card">
+                            <table class="table-responsive table-bordered">
+                                <tr>
+                                    <th><span class="label label-sux">Meter Reading Start</span></th>
+                                    <th><span class="label label-sux">Meter Reading GPS</span></th>
+                                    <th><span class="label label-sux">Trip Mileage</span></th>
+                                </tr>
+                                <tr>
+                                    <td id="currentMeterVal">
+                                        <label class="control-label">@Html.DisplayFor(modelItem => Model.MeterReadingOut)</label>
+                                        <input type="hidden" name="MeterReadingOut" id="meterReadingOut" value="@Model.MeterReadingOut" />
+                                    </td>
+                                    <td>
+                                        <label class="control-label" for="meter_reading_gps" id="meter_reading_gps">0</label>
+                                    </td>
+                                    <td>
+                                        <input type="hidden" id="gap_meter_reading" name="gap_meter_reading" />
+                                        <label class="control-label" for="trip_mileage" id="trip_mileage">0</label>
+                                    </td>
+                            </table>
+                        </div>
+                        <div class="row remove-margin padding-0-10 tbl-card">
+                            <table class="table-responsive table-bordered">
+                                <tr>
+                                    <th><span class="label label-sux">Trip Start Time</span></th>
+                                    <th><span class="label label-sux">Trip End Time</span></th>
+                                    <th><span class="label label-sux">Trip Duration</span></th>
+                                </tr>
+                                <tr>
+                                    <td id="currentMeterVal">
+                                        <label class="control-label">@Model.TimeOut.ToString("hh:mm tt")</label>
+                                    </td>
+                                    <td>
+                                        <label class="control-label">@Model.TimeIn.ToString("hh:mm tt")</label>
+                                    </td>
+                                    <td>
+                                        <label class="control-label" for="lbl_trip_duration" id="lbl_trip_duration">@Model.TripDuration</label>
+                                    </td>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MeterReadingIn, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.MeterReadingIn, new { htmlAttributes = new { @class = "form-control", @id = "meterInTxtCommon" } })
+                                @Html.ValidationMessageFor(model => model.MeterReadingIn, "", new { @class = "text-danger", @id = "meterInTxtCommonError" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8">
+                                <span class="control-label meterValueError" for="meterValueError" style="color:red" id="meterValueError"></span>
+                            </div>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>
+                                    <button class="btn btn-info btn-raised" onclick="SyncGPSEdit()"><span class="glyphicon glyphicon-map-marker"></span>  Spot</button>
+                                    <img id="loadingbarimg" style="width:50px;height:50px;display:none" src="~/Content/Images/loading.gif" />
+                                    <img id="rightbar" style="width:20px;height:20px;display:none" src="~/Content/Images/right.png" />
+                                    <img id="wrongbar" style="width:20px;height:20px;display:none" src="~/Content/Images/wrong.png" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>  <span class="control-label meterValueError" for="meterValueError" style="color:red" id="meterValueError"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-6 clear-padding-left">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10 clear-margin-left">
+                        <div class="row remove-margin form-heading-sm">
+                            <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-user"></i></div>
+                            <div class="text-light-teal col-xs-10">Information of Driver Assigned</div>
+                        </div>
+                        <div class="row remove-margin padding-0-10 tbl-card">
+                            <table class="table-responsive table-bordered">
+                                <tr>
+                                    <th><span class="label label-sux">Emp Number</span></th>
+                                    <th><span class="label label-sux">Driver Name</span></th>
+                                    <th><span class="label label-sux">DL Number</span></th>
+                                    <th><span class="label label-sux">NIC</span></th>
+                                    <th><span class="label label-sux">Contact Number</span></th>
+                                </tr>
+                                <tr>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.DriverList.EmpNumber)</label> </td>
+                                    <td><span class="control-label">@(Model.DriverList.FirstName + " " + Model.DriverList.LastName)</span></td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.DriverList.DLNumber)</label></td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.DriverList.NIC)</label></td>
+                                    <td><label class="control-label">@Html.DisplayFor(modelItem => Model.DriverList.PhoneNumber1)</label> </td>
+                                </tr>
+                            </table>
+
+                            <input type="hidden" name="DriverId" id="DriverId" value="@Model.DriverList.DriverId" />
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Apply Batta", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @*@Html.DropDownListFor(m => m.BataRateId, Model.Bata, new { @id = "BataId", @class = "form-control" })*@
+                                <select id="BataRateId" name="BataRateId" onload="javascript: getBataRates(this.value);" onchange="javascript: getBataRateAmount(this.value);" class="form-control bataCss"></select>
+                                @Html.HiddenFor(x => x.BataRateId, new { id = "BataId" })
+                                @Html.ValidationMessageFor(model => model.BataRateId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("Batta Amount", htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <label class="control-label" for="bataAmount" id="bataAmount"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="customPackageAmountHidden" id="customPackageAmountHidden" class="customPackageAmountHidden" value="0" />
+            <input type="hidden" id="payment_type_hidden" value="Revenue" />
+            <input type="hidden" class="customPackageHidden" name="customPackageHidden" id="customPackageHidden" value="@Model.IsCustomPackage" />
+            <!--Passenger Information-->
+            <div class="row">
+                <div class="col-md-9 clear-padding-right">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10 passenger-info">
+                        <div class="row remove-margin form-heading-sm">
+                            <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-users"></i></div>
+                            <div class="text-light-teal col-xs-10">Passenger Information</div>
+                        </div>
+                        <div class="row remove-margin">
+                            <div class="row checkbox-highlight" id="payment_div">
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="form-group">
+                                            @Html.Label("Settlement Type", htmlAttributes: new { @class = "control-label col-md-6" })
+                                            <div class="col-md-6">
+                                                @Html.DropDownListFor(m => m.PaymentType, Model.PaymentTypeList, new { @class = "form-control dropdown-toggle", @onchange = "javascript:getSettlementCategory(this.value);" })
+                                                @Html.ValidationMessageFor(model => model.PaymentType, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div><br />
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            @Html.Label("Payment Date & Time", htmlAttributes: new { @class = "control-label col-md-6 " })
+                                            <div class="col-md-6">
+                                                <div id="datepicker" class="input-group date" data-date-format="yyyy-MM-dd">
+                                                    <input class="form-control" name="PaymentDateTime" id="PaymentDateTime" type="text" readonly />
+                                                </div>
+                                                @Html.ValidationMessageFor(model => model.PaymentDateTime, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6" id="settlement_category_div">
+                                    </div>
+                                    <div class="col-xs-5" id="corporate_div">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row checkbox-highlight" id="passenger_detail_div">
+                                <div class="row">
+                                    <input type="hidden" name="pass" class="pass" id="pass" value="@Model.PassengerType" />
+                                    <input type="hidden" id="vehi_type_hidden" value="@Model.VehicleList.VehicleType" />
+                                    <input type="hidden" id="guest_type_hidden" value="GUEST" />
+                                    @*<div class="col-xs-5">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.PassengerType, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                @if (Model.PassengerType == null)
+                                                {
+                                                    <div class="col-md-6">
+                                                        @Html.DropDownListFor(m => m.PassengerType, Model.Passenger, new { @id = "PassengerType", @class = "form-control", @load = "javascript:getGuestTypeEdit(this.value);", @onchange = "javascript:getGuestTypeEdit(this.value);" })
+                                                        @Html.ValidationMessageFor(model => model.Passenger, "", new { @class = "text-danger" })
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="col-md-6">
+                                                        <br />
+                                                        @Html.DisplayFor(modelItem => Model.PassengerType, null, new { @id = "PassengerType", @class = "form-control pssngr_info_alnmnt" })
+                                                    </div>
+                                                }
+
+                                            </div>
+                                            <br />
+                                        </div>*@
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.GuestName, htmlAttributes: new { @class = "control-label col-md-6" })
+                                            <div class="col-md-6">
+                                                @Html.EditorFor(model => model.GuestName, new { htmlAttributes = new { @class = "form-control", @id = "GuestName" } })
+                                                @Html.ValidationMessageFor(model => model.GuestName, "", new { @id = "error_guestName", @class = "text-danger", @style = "color:red" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Model.PassengerType == null || Model.PassengerType.Equals("Guest", StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        <div class="col-xs-5" id="roomNo_div">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.RoomNumber, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                <div class="col-md-6">
+                                                    @Html.EditorFor(model => model.RoomNumber, new { htmlAttributes = new { @class = "form-control", @id = "RoomNumber" } })
+                                                    @Html.ValidationMessageFor(model => model.RoomNumber, "", new { @id = "error_roomNumber",@style = "color:red", @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.TimeOut, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => model.TimeOut, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                @Html.ValidationMessageFor(model => model.TimeOut, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row checkbox-highlight">
+                                <div class="col-md-12 remove-padding" id="add_km_waiting_div">
+                                    @if (Model.PassengerType == null)
+                                    {
+
+                                    }
+                                    else if (Model.PassengerType.Equals("Guest", StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        if (Model.IsCustomPackage != false)
+                                        {
+                                            <div class="col-xs-5" id="waitedHourDiv">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.WaitedHrs, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                    <div class="col-md-6">
+                                                        @Html.EditorFor(model => model.WaitedHrs, new { htmlAttributes = new { @class = "form-control", @id = "waitedHourTxt" } })
+                                                        @Html.ValidationMessageFor(model => model.WaitedHrs, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div><br />
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-xs-5" id="waitedHourDiv">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.WaitedHrs, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                    <div class="col-md-6">
+                                                        @Html.EditorFor(model => model.WaitedHrs, new { htmlAttributes = new { @class = "form-control", @id = "waitedHourTxt" } })
+                                                        @Html.ValidationMessageFor(model => model.WaitedHrs, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div><br />
+                                            </div>
+                                            <div class="col-xs-5">
+                                                <div class="form-group" id="addKMDiv">
+                                                    @Html.LabelFor(model => model.AdditionalKM, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                    <div class="col-md-6">
+                                                        @Html.EditorFor(model => model.AdditionalKM, new { htmlAttributes = new { @class = "form-control", @id = "addtionalKmTxt" } })
+                                                        @Html.ValidationMessageFor(model => model.AdditionalKM, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else if (Model.PassengerType.Equals("Staff", StringComparison.InvariantCultureIgnoreCase))
+                                    {
+                                        if (Model.IsCustomPackage != false)
+                                        {
+                                            <div class="col-xs-5" id="waitedHourDiv">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.WaitedHrs, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                    <div class="col-md-6">
+                                                        @Html.EditorFor(model => model.WaitedHrs, new { htmlAttributes = new { @class = "form-control", @id = "waitedHourTxt" } })
+                                                        @Html.ValidationMessageFor(model => model.WaitedHrs, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="form-group col-xs-5" id="waitedHourDiv">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.WaitedHrs, htmlAttributes: new { @class = "control-label col-md-6" })
+                                                    <div class="col-md-6">
+                                                        @Html.EditorFor(model => model.WaitedHrs, new { htmlAttributes = new { @class = "form-control", @id = "waitedHourTxt" } })
+                                                        @Html.ValidationMessageFor(model => model.WaitedHrs, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-xs-6">
+                                                <label class="control-label col-md-6">Distance Travelled</label>
+                                                <div class="col-md-5">
+                                                    <input type="number" class="form-control" name="meterInTxt" id="meterInTxt">
+                                                    <label class="text-danger" id="meterInTxtError"></label>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row checkbox-highlight" id="remaks_div">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control", @id = "remarks" } })
+                                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger",@style="color:red" })
+                                        <span class="text-danger lbl-error" style="color:red" for="remarksTxtError" id="remarksTxtError"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- package Information -->
+                <div class="col-md-3 clear-padding-left">
+                    @if (Model.PassengerType == null)
+                    {
+                        <div class="row checkbox-highlight margin-bottom-10 padding-all-10 passenger-info clear-margin-left" id="packageInfoDiv">
+                            <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-usd"></i></div>
+                            <div class="newPackDivEdit" id="newPackDivEdit"></div>
+                            <br />
+                            <br />
+                            @if ((Model.VehicleList.VehicleType.Equals("Car", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("SUV", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("Van", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("Bus", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)))
+                            {
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CustomPackageAmount, htmlAttributes: new { @class = "control-label" })
+                                    <div class="col-md-9">
+                                        @*@Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "customPackageAmount" } })*@
+                                        <input type="number" class="form-control" name="customPackageAmount" id="customPackageAmount">
+                                        @Html.ValidationMessageFor(model => model.CustomPackageAmount, "", new { @class = "text-danger" })
+                                        <input type="hidden" name="customPackageAmountEditHidden" id="customPackageAmountEditHidden" class="customPackageAmountEditHidden" value="@Model.CustomPackageAmount" />
+                                    </div>
+                                </div>
+                            }
+                            <div class="row remove-margin">
+                                <div class="form-group" id="CustomPackagesDiv">
+                                    @foreach (var package in Model.PackagesList)
+                                    {
+                                        <div class="btn btn-sm col-xs-10" id="@package.PackageId" onclick="deletePackage(this.id)"><label class="xxx" style="word-break:break-all;word-wrap:break-word">@package.PreDefineTripName</label><span class="glyphicon glyphicon-minus"></span></div><br />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (Model.PassengerType.Equals("guest", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <div class="row checkbox-highlight margin-bottom-10 padding-all-10 passenger-info clear-margin-left" id="CustomPackagesDivs">
+                            <div class="row remove-margin form-heading-sm">
+                                <div class="form-icon-sm light-teal col-xs-3"><i class="fa fa-usd"></i></div>
+                                <br />
+                                <br />
+                                @if ((Model.VehicleList.VehicleType.Equals("Car", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("SUV", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("Van", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)) || (Model.VehicleList.VehicleType.Equals("Bus", StringComparison.InvariantCultureIgnoreCase) && Model.IsCustomPackage.Equals(false)))
+                                {
+                                    <div class="btn btn-info btn-raised" onclick="generateDropDownsEdit()">
+                                        <span class="btn-sm">ADD NEW PACKAGE</span> <span class="glyphicon glyphicon-plus"></span>
+                                    </div> <br />
+                                }
+                                else
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CustomPackageAmount, htmlAttributes: new { @class = "control-label" })
+                                        <div class="col-md-9">
+                                            @*@Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @id = "customPackageAmount" } })*@
+                                            <input type="number" class="form-control" name="customPackageAmount" id="customPackageAmount" value="@Model.Amount">
+                                            @Html.ValidationMessageFor(model => model.CustomPackageAmount, "", new { @class = "text-danger" })
+                                            <input type="hidden" name="customPackageAmountEditHidden" id="customPackageAmountEditHidden" class="customPackageAmountEditHidden" value="@Model.CustomPackageAmount" />
+                                        </div>
+                                    </div>
+                                }
+                                <div align="center" class="CustomPackagesDiv" id="CustomPackagesDiv">
+                                    @foreach (var package in Model.PackagesList)
+                                    {
+                                        <div class="btn btn-secondary col-md-10 btn-raised" style="color:black;word-break:break-all;word-wrap:break-word;" id="@("minus"+package.PackageId)" data-pid="@package.PackageId" onclick="deletePackage(this.id)">
+                                            <span class="btn-sm" style="word-break:break-all;word-wrap:break-word;color:black">@package.PreDefineTripName</span> <span class="glyphicon glyphicon-trash"></span>
+                                        </div> <br /> <br /> <br />
+                                    }
+                                </div>
+                            </div>
+                        </div><!-- /package Information -->
+                    }
+                    else if (Model.PassengerType.Equals("staff", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        <input type="hidden" id="stafffhidden" class="stafffhidden" value="@Model.PassengerType" />
+                        <div class="row checkbox-highlight margin-bottom-10 padding-all-10 passenger-info clear-margin-left" id="packageInfoDiv">
+                            <div class="row remove-margin form-heading-sm">
+                                <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-usd"></i></div>
+                                <br />
+                                <br />
+                                @if (Model.IsCustomPackage != false)
+                                {
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.CustomPackageAmount, htmlAttributes: new { @class = "control-label" })
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control" name="customPackageAmount" id="customPackageAmount" value="@Model.Amount">
+                                            @*@Html.EditorFor(model => model.CustomPackageAmount, new { htmlAttributes = new { @class = "form-control", @id = "customPackageAmount" },Value="lala" })*@
+                                            @Html.ValidationMessageFor(model => model.CustomPackageAmount, "", new { @class = "text-danger" })
+                                            <input type="hidden" name="customPackageAmountEditHidden" id="customPackageAmountEditHidden" class="customPackageAmountEditHidden" value="@Model.CustomPackageAmount" />
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+                    <!-- Package Summary -->
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10 col-centered clear-margin-left">
+                        <div id="AmountDiv" class="padding-0-10">
+                            <input type="hidden" id="noOfKm" />
+                            <div id="fareData">
+                                @foreach (var item in Model.VehicleRates)
+                                {
+                                    <input type="hidden" value="@item.FarePerKm" name="@item.VehicleType" data-guesttype="@item.PassengerType" data-waitingcharge="@item.WaitingChargers" />
+                                }
+                            </div>
+                            @if (Model.PassengerType == null)
+                            {
+                                <div class="package-summary">
+                                    <span id="tripFareSpan"> Package Cost : <label id="pcAmount" class="pcAmount">@Model.PackageCost</label></span> <br />
+                                    <span> Additional Km Charges :  <label id="lblAdditionKmCost" class="extraKm">@Model.AdditionalKmCost</label> </span> <br />
+                                    <span> Waiting Charges :  <label id="lblWaitedHourCost" class="waitedHour">@Model.WaitingHourCost</label></span> <br />
+                                    <span> Total Amount : <label id="lblTotAmount" class="totAmount">@Model.Amount</label></span>
+                                </div>
+                                <span class="control-label" style="color:red" id="error_package_amount"></span>
+                            }
+                            <input type="hidden" id="totalAmountHf" value="@Model.Amount" name="Amount" />
+                            <input type="hidden" id="additionalKmCostHf" value="@Model.AdditionalKmCost" name="AdditionalKmCost" />
+                            <input type="hidden" id="waitedTimeCostHf" value="@Model.WaitingHourCost" name="WaitingHourCost" />
+                            <input type="hidden" id="packageCostHf" value="@Model.PackageCost" name="PackageCost" />
+                        </div>
+                    </div><!-- /Package Summary -->
+                </div>
+            </div>
+            <!-- Package Information -->
+            <div class="row">
+                <div class="col-md-6 clear-padding-left">
+                </div>
+            </div>
+
+            <div class="row remove-margin clearfix">
+                <div class="text-center">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-6">
+                        @Html.ActionLink("Back", "Index", "Trips", null, new { @class = "btn btn-info btn-raised" })
+                        <input type="hidden" id="tripId" value="@Model.TripId" name="TripId" />
+                        <input type="button" value="Calculate Amount" class="btn btn-info btn-raised" onclick="CalculateAmount()" />
+                        <input type="submit" value="Close Voucher" id="updateVoucherBtn" onclick="submitEdits()" disabled="disabled" class="btn btn-info btn-raised" />
+                    </div>
+                    @*<div class="col-md-3">
+                        <input type="submit" value="Cancel Voucher" id="cancelVoucherBtn" onclick="cancelVoucher()" class="btn btn-warning btn-raised" style="float:right" />
+                    </div>*@
+                </div>
+            </div>
+            <div class="progress progress-bar" style="background:red"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom_script_edit")
+}

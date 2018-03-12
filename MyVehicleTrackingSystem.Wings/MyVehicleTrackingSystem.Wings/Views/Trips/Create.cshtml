@@ -1,0 +1,363 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.TripViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    div#spinner {
+        display: none;
+        width: 100px;
+        height: 100px;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background: url(spinner.gif) no-repeat center #fff;
+        text-align: center;
+        padding: 10px;
+        font: normal 16px Tahoma, Geneva, sans-serif;
+        border: 1px solid #666;
+        margin-left: -50px;
+        margin-top: -50px;
+        z-index: 2;
+        overflow: auto;
+    }
+</style>
+@*@using (Html.BeginForm())
+    {*@
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="well margin-top-10 create-forms">
+            <div class="row">
+                <span id="validationError" class="text-danger"></span>
+            </div>
+            <div class="row" style="margin-top:-10px">
+
+                <div class="col-md-12 clear-padding-right">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10">
+                        <div class="form-horizontal">
+                            <div class="formtitle row remove-margin form-heading-sm">
+                                <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-taxi"></i></div>
+                                <div class="text-light-teal col-xs-10">Add Customer For Trip</div>
+                            </div>
+                            <div class="row remove-margin padding-all-10 tbl-card">
+                                <div class="form-group">
+                                    @Html.Label("Phone Number", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8 margin-top-16">
+                                        @Html.TextBox("PhoneNumber", null, new { @id = "PhoneNumber", @class = "form-control", style = "width:300px;height:30px", @onchange = "ValidatePhoneNumber();" })
+                                        @Html.ValidationMessage("PhoneNumber", "", new { @id = "PhoneNumberValidationMessage", @class = "text-danger" })
+                                        <div>
+                                            <input type="button" value="CHECK CUSTOMER EXIST" onclick="IsCustomerExist()" class="btn btn-default btn-raised" />
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("First Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBox("FirstName", null, new { @id = "FirstName", @class = "form-control", style = "width:300px;height:30px", @onchange = "ValidateFirstName();" })
+                                        @Html.ValidationMessage("FirstName", "", new { @id = "FirstNameValidationMessage", @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Last Name", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBox("LastName", null, new { @id = "LastName", @class = "form-control", style = "width:300px;height:30px", @onchange = "ValidateLastName();" })
+                                        @Html.ValidationMessage("LastName", "", new { @id = "LastNameValidationMessage", @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Email", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBox("Email", null, new { @id = "Email", @class = "form-control", style = "width:300px;height:30px", @onchange = "ValidateEmail();" })
+                                        @Html.ValidationMessage("Email", "", new { @id = "EmailValidationMessage", @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Address", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBox("Address", null, new { @id = "Address", @class = "form-control", style = "width:300px;height:30px", @onchange = "ValidateAddress();" })
+                                        @Html.ValidationMessage("Address", "", new { @id = "AddressValidationMessage", @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Trip Count", htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextBox("TripCount", null, new { @id = "TripCount", @class = "form-control", style = "width:300px;height:30px", @readonly = "readonly" })
+                                        @Html.ValidationMessage("TripCount", "", new { @class = "text-danger" })
+                                    </div>
+                                </div>                              
+                                <div class="row remove-margin clearfix">
+                                    <div class="text-center">
+                                        <input type="button" id="savecustomer" name="savecustomer" value="SAVE CUSTOMER" onclick="CreateCustomer()" class="btn btn-default btn-raised" />
+                                        <input type="button" id="updatecustomer" name="updatecustomer" value="UPDATE CUSTOMER" onclick="UpdateCustomer()" class="btn btn-default btn-raised" />
+                                        <!--input type="submit" id="submit" name="button" value="SAVE & ADD NEW DRIVER" class="btn btn-default btn-raised" /-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 clear-padding-right">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10">
+                        <div class="form-horizontal">
+                            <div class="formtitle row remove-margin form-heading-sm">
+                                <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-taxi"></i></div>
+                                <div class="text-light-teal col-xs-10">Select Vehicle For Trip</div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.VehicleNumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8 margin-top-16">
+                                    @Html.DropDownListFor(m => m.VehicleId, Model.Vehicle, new { @id = "Vehicle", @class = "chosen-search form-control vehicle_select", style = "width:300px;height:30px", @onchange = "javascript:GetVehicleData(this.value);" })
+                                    @*<select id="Vehicle" name="VehicleId" onchange="javascript: GetVehicleData(this.value);" class="dropdown chosen-search form-control vehicle_select" style="width:300px;height:30px"></select>
+                                        <div id="vehicle_dropdown" class="vehicle_dropdown"> </div>*@
+                                    @Html.ValidationMessageFor(model => model.VehicleId, "", new { @id = "error_vehicle_select", @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row remove-margin padding-all-10 tbl-card">
+                                <table class="table">
+                                    <tr class="bordertb">
+                                        <th><span class="label label-sux">Vehicle Type</span></th>
+                                        <th><span class="label label-sux">Vehicle Make</span></th>
+                                        <th><span class="label label-sux">Vehicle Model</span></th>
+                                        <th><span class="label label-sux">Meter Reading Start</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label" for="vehiType" id="vehiType"></label></td>
+                                        <td><label class="control-label" for="vehiMake" id="vehiMake"></label></td>
+                                        <td><label class="control-label" for="vehiModel" id="vehiModel"></label></td>
+                                        <td><label class="control-label" for="meterReading" id="meterReading"></label></td>
+                                    </tr>
+                                </table>
+                                <br />
+                                <table>
+                                    <tr>
+                                        <td><span class="label label-sux">Meter Reading GPS</span></td>
+                                        <td>
+                                            <label class="control-label" for="meter_reading_gps" id="meter_reading_gps">0</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="">
+                                                    <span class="control-label" for="gap_meter_reading_status" style="color:red" id="gap_meter_reading_status"></span>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-info btn-raised" onclick="SyncGPS()"><span class="glyphicon glyphicon-map-marker"></span>  Spot</button>
+                                            <img id="loadingbarimg" style="width:50px;height:50px;display:none" src="~/Content/Images/loading.gif" />
+                                            <img id="rightbar" style="width:20px;height:20px;display:none" src="~/Content/Images/right.png" />
+                                            <img id="wrongbar" style="width:20px;height:20px;display:none" src="~/Content/Images/wrong.png" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <input type="hidden" id="gps_meter_reading" name="gps_meter_reading" />
+                                <input type="hidden" id="gap_meter_reading" name="gap_meter_reading" />
+                                <input type="hidden" id="gap_meter_reading_status" name="gap_meter_reading_status" />
+                                <input type="hidden" name="vehitypeHidden" id="vehitypeHidden" />
+                                <input type="hidden" class="passengerType" name="passengerType" id="passengerType" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 clear-padding-left">
+                    <div class="row checkbox-highlight margin-bottom-10 padding-all-10 clear-margin-left">
+                        <div class="form-horizontal">
+                            <div class="formtitle row remove-margin form-heading-sm">
+                                <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-user"></i></div>
+                                <div class="text-light-teal col-xs-10">Select Driver For Trip</div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DriverName, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8 margin-top-16">
+                                    @Html.DropDownListFor(m => m.DriverId, Model.Driver, new { @id = "Driver", @class = "chosen-search form-control driver_select", @style = "width:300px;height:30px", @onchange = "javascript:GetDriverData(this.value);" })
+                                    @*<select id="Driver" name="DriverId" onchange="javascript:GetDriverData(this.value);" class="chosen-search form-control driver_select" style="width:300px;height:30px"></select>
+                                        <div id="driver_dropdown" class="driver_dropdown"> </div>*@
+                                    @Html.ValidationMessageFor(model => model.DriverName, "", new { @id = "error_driver_select", @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="row remove-margin padding-all-10 tbl-card">
+                                <table class="table">
+                                    <tr class="bordertb">
+                                        <th><span class="label label-sux">Emp Number</span></th>
+                                        <th><span class="label label-sux">Dl Number</span></th>
+                                        <th><span class="label label-sux">NIC</span></th>
+                                        <th><span class="label label-sux">Contact Number</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-label" for="empNo" id="empNo"></label></td>
+                                        <td><label class="control-label" for="DLNumber" id="DLNumber"></label></td>
+                                        <td><label class="control-label" for="nic" id="nic"></label></td>
+                                        <td><label class="control-label" for="contact" id="contact"></label></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<div class="row checkbox-highlight margin-bottom-10">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-4">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="checkOption" name=checkOption id="checkOption" value="0" />Passenger Information Available
+                            </label>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="row">
+                @*<legend class="scheduler-border">Select Package Info</legend>
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <table>
+                                <tr>
+                                    <td width="200px">
+                                        Package Type
+                                    </td>
+                                    <td>
+                                        @*<select id="tripType" name="tripType" class="dropdown-toggle form-control" style="width:300px;height:30px"></select>
+                                        @Html.DropDownListFor(m => m.TripTypeId, Model.Trips, new { @id = "TripSelect", @class = "form-control", @style = "width:300px;height:30px" })
+                                        @Html.ValidationMessageFor(model => model.TripType, "", new { @class = "text-danger" })
+                                    </td>
+                                    <td width="150px"></td>
+                                    <td width="200px">Package Name</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>*@
+            </div>
+            <fieldset class="scheduler-border" id="passengerInfo"></fieldset>
+            <!-- Select package info block -->
+            @*<div class="col-xs-12 create-forms remove-padding">
+                <div class="row checkbox-highlight margin-bottom-10 padding-all-10">
+                    <div class="row remove-margin form-heading-sm">
+                        <div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-usd"></i></div>
+                        <div class="text-light-teal col-xs-10">Select Package Info</div>
+                    </div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-md-4"><label class="control-label">Package Name</label></div>
+                            <div class="col-md-8">
+                                <select id="PackageId" name="PackageId" multiple="multiple" class="dropdown-toggle form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                   </div>
+                </div> /Select package info block*@
+            <!-- Select passanger info block -->
+            <div class="passengerInfo">
+                <div class="packageInfo" id="packageInfo">
+                </div>
+            </div>
+            <input type="hidden" name="customPackageAmountHidden" id="customPackageAmountHidden" class="customPackageAmountHidden" value="0" />
+            <!-- /Select passanger info block -->
+            <br />
+            <br />
+            <div class="row remove-margin clearfix">
+                <div class="text-center">
+                    @Html.ActionLink("Back", "Index", "Trips", null, new { @class = "btn btn-info btn-raised" })
+                    <input id="generateVoucher" type="submit" value="Assign & Generate Voucher" onclick="ValidateCustomerInputs() ? onSubmit() : ''" class="btn btn-default btn-raised" />
+                </div>
+            </div>
+            <div class="progress progress-bar" style="background:red"></div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="notificationModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p id="notificationModalBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div id="packageDataHf"></div>
+@*}*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom_script_create")
+    @Scripts.Render("~/Scripts/MyVehicleTracker/Trip/create.js")
+    <script src="@Url.Content("~/Scripts/tag/chosen.jquery.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //$('#checkOption').click(function () {
+        //    $(".passengerInfo").html("");
+        //    var option = $('input[name=checkOption]:checked').val();
+        //    if (option == 0) {
+        //        var html = '<div class="col-xs-12 create-forms remove-padding">'
+        //                            + '<div class="row checkbox-highlight margin-bottom-10 padding-all-10">'
+        //                                + '<div class="row remove-margin form-heading-sm">'
+        //                                   + '<div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-users"></i></div>'
+        //                                   + '<div class="text-light-teal col-xs-10">Select Passenger Information</div>'
+        //                               + '</div>'
+        //                                + '<div class="form-horizontal">'
+        //                                   + '<div class="col-md-6">'
+        //                                        + '<div class="form-group">'
+        //                                            + '<div class="col-md-4"><label class="control-label">Guest Name</label></div>'
+        //                                           + '<div class="col-md-8">'
+        //                                                + '<input type="text" name="GuestName" id="GuestName" class="form-control">'
+        //                                            + '</div>'
+        //                                       + '</div>'
+        //                                        + '<div class="form-group">'
+        //                                            + '<div class="col-md-4"><label class="control-label">Passenger Type</label></div>'
+        //                                            + '<div class="col-md-8">'
+        //                                                + ' <select id="PassengerType" name="PassengerType" onchange="javascript:loadCustomPackage(this.value);" onload="javascript:loadCustomPackage(this.value);" class="form-control" style="width:300px;height:30px">'
+        //                                                  + ' <option value="Guest">Guest</option>'
+        //                                                  + '<option value="Staff">Staff</option>'
+        //                                                + '</select>'
+        //                                            + '</div>'
+        //                                        + '</div>'
+        //                                    + '</div>'
+        //                                    + '<div class="col-md-6">'
+        //                                        + '<div class="form-group RoomNumber">'
+        //                                            + '<div class="col-md-4"><label class="control-label">Room Number</label></div>'
+        //                                            + '<div class="col-md-8">'
+        //                                                + '<input type="text" name="RoomNumber" id="RoomNumber" class="form-control">'
+        //                                            + '</div>'
+        //                                        + '</div>'
+        //                                        + '<div class="form-group">'
+        //                                            + '<div class="col-md-4"><label class="control-label">Settlement Type</label></div>'
+        //                                            + '<div class="col-md-8">'
+        //                                               + '<select id="PaymentType" name="PaymentType" class="form-control">'
+        //                                                  + '<option value="Cash">Cash</option>'
+        //                                                  + '<option value="Credit Card">Credit Card</option>'
+        //                                                  + '<option value="Credit">Credit</option>'
+        //                                                  + '<option value="Direct Credit">Direct Credit</option>'
+        //                                                  + '<option value="No Show">No Show</option>'
+        //                                               + '</select>'
+        //                                            + '</div>'
+        //                                        + '</div>'
+        //                                    + '</div>'
+        //                                    + '</div>'
+        //                                + '</div>'
+        //                          + '</div>'
+        //        + '<div class="col-xs-12 create-forms remove-padding packageInfo">'
+        //          + '<div class="row checkbox-highlight margin-bottom-10 padding-all-10">'
+        //        + '<div class="row remove-margin form-heading-sm">'
+        //            + '<div class="form-icon-sm light-teal col-xs-2"><i class="fa fa-usd"></i></div>'
+        //            + '<div class="text-light-teal col-xs-10">Select Package Information</div>'
+        //        + '</div>'
+        //        + '<div id="newPackDiv" class="newPackDiv row checkbox-highlight">'
+        //         + '</div>'
+        //          + '</div>'
+
+        //        $(".passengerInfo").append(html);
+        //        loadCustomPackage("Guest");
+        //    }
+        //    else {
+        //        $(".passengerInfo").html('');
+        //    }
+        //});
+    </script>
+}

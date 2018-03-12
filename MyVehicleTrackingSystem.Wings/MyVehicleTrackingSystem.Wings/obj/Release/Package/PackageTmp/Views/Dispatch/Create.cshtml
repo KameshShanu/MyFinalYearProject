@@ -1,0 +1,181 @@
+﻿@model Hypercent.Wings.Models.DispatchNoteViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+</style>
+@using (Html.BeginForm("Create", "Dispatch", FormMethod.Post, new { @id = "createForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("ClientRate")
+    @Html.Hidden("DriverCommissionRate")
+    @Html.Hidden("PorterCommissionRate")
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well margin-top-20 create-forms">
+                <div class="formtitle row remove-margin form-heading">
+                    <div class="form-icon light-blue col-xs-2"><i class="fa fa-user-plus"></i></div>
+                    <div class="text-light-blue col-xs-10">Create New Dispatch</div>
+                </div>
+                <br>
+                <div class="clearfix">
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Client, htmlAttributes: new { @class = "control-label  col-md-4 " })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(c => c.Client, Model.Client_OperationType, new { @id = "Client_OperationType", @class = "form-control required" })
+                                    @Html.ValidationMessageFor(model => model.Client, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.CompanyAddress, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.CompanyAddress, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.CompanyAddress, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.VehicleLicensePlateNumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(v => v.VehicleLicensePlateNumber, Model.VehiclePlateNumber, new { @id = "VehiclePlateNumber", @class = "form-control required" })
+                                    @Html.ValidationMessageFor(model => model.VehicleLicensePlateNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.VehicleDeliveryType, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.EditorFor(model => model.VehicleDeliveryType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.VehicleDeliveryType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Driver, htmlAttributes: new {@class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(d => d.Driver, Model.DriverName_Grade, new { @id = "DriverName_Grade", @class = "form-control required" })                                   
+                                    @Html.ValidationMessageFor(model => model.Driver,"", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Helper, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    @Html.DropDownListFor(h => h.Helper, Model.HelperName, new { @id = "HelperName", @class = "form-control required" })
+                                    @Html.ValidationMessageFor(model => model.Helper, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.DispatchDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                <div class="col-md-8">
+                                    <div id="datepicker" class="input-group date exp-date" data-date-format="yyyy-MM-dd">
+                                        @Html.EditorFor(model => model.DispatchDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                    <div class="errLicenseExpDate">@Html.ValidationMessageFor(model => model.DispatchDate, "", new { @class = "text-danger" })</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row remove-margin clearfix">
+                    <div class="col-md-12 text-center">
+                        @Html.ActionLink("Back", "Open", null, new { @class = "btn btn-info btn-raised" })
+                        <input type="button" id="submit" value="GENERATE DISPATCH NOTE" class="btn btn-default btn-raised" onclick="exampleModal()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    //Modal-Content.
+    <div class="printModal">
+        <div id="previewModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="costumModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Client, htmlAttributes: new {@class = "control-label  col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="clientModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CompanyAddress, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="companyAddressModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VehicleLicensePlateNumber, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="vehicleLicensePlateNumberModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="quantityModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.VehicleDeliveryType, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="vehicleDeliveryTypeModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Driver, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="driverModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Helper, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="helperModalElement"></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DispatchDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <label class="left-align" id="dispatchDateModalElement"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" id="submit1" name="button" value="Cancel" class="btn btn-default btn-raised" />
+                            <input type="submit" id="submit2" name="button" value="Print" class="btn btn-default btn-raised" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")    
+<script src="~/Scripts/LeapRunner/Dispatch/create.js"></script>
+}

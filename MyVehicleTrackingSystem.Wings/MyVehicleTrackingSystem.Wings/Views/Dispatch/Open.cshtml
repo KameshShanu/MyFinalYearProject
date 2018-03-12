@@ -1,0 +1,190 @@
+﻿@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.DispatchNoteViewModel>
+
+@{
+    ViewBag.Title = "Open";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .nav-tabs > li > a {
+        color: #000 !important;
+    }
+
+        .nav-tabs > li > a:hover {
+            color: rgba(0,0,0,0.2) !important;
+        }
+</style>
+@*<div class="icon-nav lg-only">
+        <a href='@Url.Action("Cancelled", "Dispatch")' title="Cancelled" class="right active"><span class="active" value="">Cancelled</span></a>
+        <a href='@Url.Action("Closed", "Dispatch")' title="Closed" class="middle"><span class="" value="">Closed</span></a>
+        <a href='@Url.Action("Open", "Dispatch")' title="Open" class="left"><span class="right">Open</span></a><br>
+    </div>*@
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"> <a href='@Url.Action("Open", "Dispatch")' title="Open">Open</a></li>
+    <li role="presentation"><a href='@Url.Action("Closed", "Dispatch")' title="Closed">Closed</a></li>
+    <li role="presentation" class=""><a href='@Url.Action("Cancelled", "Dispatch")' title="Cancelled">Cancelled</a></li>
+</ul>
+
+@*<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+    <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+    <li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+</ul>*@
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well margin-top-20 create-forms">
+            <div class="col-md-12 marginBottom tableTitle row remove-margin form-heading">
+                @*<div class="form-icon light-blue col-xs-1"><i class="fa fa-user-plus"></i></div>*@
+                <div class="text-light-blue col-xs-12">Open Dispatch</div>
+            </div>
+            <div class="form-horizontal">
+                <fieldset class="scheduler-border">
+                    <div class="col-md-12">
+                        <div class="col-md-5">
+                            <p>
+                                @Html.ActionLink("Create New", "Create", null, null, new { @class = "btn btn-info btn-raised" })
+                            </p>
+                        </div>
+                        @using (Html.BeginForm("Search", "Dispatch"))
+                        {
+                            <div class="col-md-2">
+                                <div class="input-group date" data-provide="datepicker">
+                                    <div class="input-group-addon">
+                                        <span>From</span>
+                                    </div>
+                                    <input type="text" name="From" class="form-control">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="input-group date" data-provide="datepicker">
+                                    <div class="input-group-addon">
+                                        <span>To</span>
+                                    </div>
+                                    <input type="text" name="To" class="form-control">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <Sdiv class="input-group add-on">
+                                    <input class="form-control" placeholder="Search" name="Term" id="srch-term" type="text">
+                                    <div class="input-group-btn">
+                                        <button class="searchbtn btn btn-default btn-raised" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </Sdiv>
+                            </div>
+                        }
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="tbtr">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DispatchId)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Client - Operation Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CompanyAddress)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Quantity)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Driver)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleLicensePlateNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DispatchDate)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DispatchId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Client)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CompanyAddress)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Quantity)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Driver)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VehicleLicensePlateNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DispatchDate)
+                                        </td>
+                                        <td>
+                                            @if (item.IsPrinted)
+                                            {
+                                                @Html.ActionLink("View", "ViewDispatch", new { id = item.DispatchNoteId }, new { @class = "viewbtn btn btn-default btn-raised" })
+                                            }
+                                            else
+                                            {
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.DispatchNoteId }, new { @class = "editbtn btn btn-default btn-raised" })
+                                            }
+                                            <br>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="8" align="center" style="color:red">No open dispatch notes available.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <p>
+                        @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/paginathing.js"></script>
+    <script>
+        //Add pagination fuctionality
+        jQuery(document).ready(function ($) {
+            for (var i = 1; i <= 500; i++) {
+                $('.list-group').append('<li class="list-group-item"> Item ' + i + '</li>');
+            }
+
+            $('.table tbody').paginathing({
+                limitPagination: false,
+                perPage: 10,
+                insertAfter: '.table',
+                containerClass: 'panel-footer'
+            });
+        });
+    </script>
+}

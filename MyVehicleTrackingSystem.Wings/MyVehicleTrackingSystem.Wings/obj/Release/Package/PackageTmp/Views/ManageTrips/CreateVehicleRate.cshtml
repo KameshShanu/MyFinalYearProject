@@ -1,0 +1,131 @@
+﻿@model Hypercent.Wings.Models.VehicleRateViewModel
+@{
+    ViewBag.Title = "Add New Vehicle Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="row margin-top-20">
+        <div class="col-md-8 well col-centered create-forms">
+            <div class="form-horizontal">
+                <div class="formtitle row remove-margin form-heading">
+                    <div class="form-icon yellow col-xs-2"><i class="fa fa-usd"></i></div>
+                    <div class="text-yellow col-xs-10">Additional Fares</div>
+                </div>
+                <br />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @if (ViewData["Success"] != null)
+                {
+                <span class="success-msg margin-top-bottom-30" style="color:forestgreen"> @ViewData["Success"].ToString() </span>
+                }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Passenger, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9 remove-padding">
+                        @if (@ViewBag.PassengerTypeHide != null)
+                        {
+                            <input type="hidden" name="PassengerTypeHide" id="PassengerTypeHide" value="@ViewBag.PassengerTypeHide" />
+                        }
+                        <div class="radio radio-primary remove-padding">
+                            <label>
+                                <input type="radio" name="PassengerType" id="PassengerType" value="Guest" checked=""/>
+                                Guest
+                            </label>
+                        </div>
+                        <div class="radio radio-primary remove-padding">
+                            <label>
+                                <input type="radio" name="PassengerType" id="PassengerType" value="Hotel Staff">
+                                Hotel Staff
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div id="contentNew" class="contentNew">
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.WaitingChargers, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.WaitingChargers, new { htmlAttributes = new { @class = "form-control", @style = "width:300px;height:30px" } })
+                        @Html.ValidationMessageFor(model => model.WaitingChargers, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <br /><br />
+                <div class="row remove-margin clearfix">
+                    <div class="text-center">
+                        @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-raised btn-info" })
+                        <input type="submit" id="submit" name="button" value="SAVE RATE" class="btnSubmit btn btn-raised btn-default" />
+                        <input type="submit" id="submit" name="button" value="SAVE & ADD NEW RATE" class="btnSubmit btn btn-default btn-raised" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pass;
+            //if ($("#PassengerTypeHide").val() != null) {
+            //    pass = $("#PassengerTypeHide").val();
+            //}
+            //else {
+            //    pass = $("#PassengerType").val();
+            //}
+            pass = $("#PassengerType").val();
+            LoadData(pass);
+            $(document).on('change', '#PassengerType', function () {
+                pass = $(this).filter(':checked').val();
+                LoadData(pass);
+            });
+
+            $(".btnSubmit").click(function () {
+                var type = $('#contentNew #VehicleType option:selected').val();
+                if (type == "0") {
+                    var e = document.createEvent('MouseEvents');
+                    e.initMouseEvent('mousedown');
+                    $('.contentNew #VehicleType')[0].dispatchEvent(e);
+                    return false;
+                }
+            });
+
+
+            function LoadData(pass) {
+                $("#contentNew").html("");
+                if (pass == "Guest") {
+                    $("#contentNew").append('<div class="form-group">'
+                      + '  <label class="control-label col-md-3">Vehicle Type</label>'
+                       + ' <div class="col-md-9">'
+                                  + ' <select id="VehicleType" name="VehicleType" class="form-control VehicleType" style="width:300px;height:30px">'
+                                       + ' <option value="0">Please Select</option>'
+                                       + ' <option value="Car">Car</option>'
+                                       + ' <option value="SUV">SUV</option>'
+                                   + '</select>'
+                      + '  <label class="text-danger" for="lblVehicleType" id="lblVehicleType"></label>'
+                       + '</div>'
+                     + '</div>'
+                     + '<div class="form-group">'
+                      + ' <label class="control-label col-md-3" id="FarePerKm">Fare Per Km</label>'
+                         + '<div class="col-md-9">'
+                            + '<input type="text" name="FarePerKm" id="FarePerKm" class="form-control">'
+                            + '  <label class="text-danger" id="lblFarePerKm"></label>'
+                         + '</div>'
+                     + '</div>');
+
+                }
+                else {
+                    $("#contentNew").append('<div class="form-group">'
+                      + ' <label class="control-label col-md-3" id="FarePerKm">Staff Rate</label>'
+                         + '<div class="col-md-9">'
+                            + '<input type="text" name="FarePerKm" id="FarePerKm" class="form-control">'
+                         + '</div>'
+                     + '</div>');
+                }
+            }
+
+        });
+    </script>
+}

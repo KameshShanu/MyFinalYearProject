@@ -1,0 +1,132 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.TripPackageViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<hr />
+@using (Html.BeginForm("ActionSelector", "ManageTrips", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well margin-top-20 create-forms">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-horizontal">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Packages</legend>
+                        <p>
+                            @Html.ActionLink("Add New Package", "CreateNewPreDefineTrip", null, new { @class = "btn btn-default btn-raised" })
+                        </p>
+                        <table class="table table-bordered">
+                            <tr class="tbtr">
+                                <th></th>
+                                <th>
+                                    @Html.DisplayName("Vehicle Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Name")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Package Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Distance (KM)")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Rate")
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model.Packages.OrderByDescending(a => a.TripType))
+                    {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="packagesToDelete" id="packagesToDelete" value="@item.PreDefineTripId" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PreDefineTripName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TripType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Distance)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Rate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditPreDefineTrip", "ManageTrips", new { id = item.PreDefineTripId }, new { @class = "editbtn btn btn-default btn-raised" })
+                            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                            @*@Html.ActionLink("Delete", "DeletePreDefineTrip", "ManageTrips", new { id = item.PreDefineTripId }, new { @class = "btn btn-danger btn-raised" })*@
+                        </td>
+                    </tr>
+                    }
+                        </table>
+                        @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+                        <input type="submit" class="btn btn-raised btn-default" name="packageDelete" value="Remove Package(s)" />
+                    </fieldset>
+                </div>
+            </div>
+            <div class="well margin-top-20 create-forms">
+                <div class="form-horizontal">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Rates</legend>
+                        <p>
+                            @Html.ActionLink("Add New Rate", "CreateVehicleRate", null, new { @class = "btn btn-default btn-raised" })
+                        </p>
+                        <table class="table table-bordered">
+                            <tr class="tbtr">
+                                <th>
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Passenger Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Vehicle Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Rate Per KM")
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Waiting Charges")
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model.FarePackages)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="ratesToDelete" id="ratesToDelete" value="@item.VehicleRateId" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PassengerType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FarePerKm)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WaitingChargers)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditVehicleRate", "ManageTrips", new { id = item.VehicleRateId }, new { @class = "editbtn btn btn-default btn-raised" })
+                            @*@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |*@
+                            @*@Html.ActionLink("Delete", "DeleteVehicleRate", "ManageTrips", new { id = item.VehicleRateId }, new { @class = "btn btn-danger btn-raised" })*@
+                        </td>
+                    </tr>
+                    }
+                        </table>
+                        @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+                        <input type="submit" class="btn btn-raised btn-default" name="rateDelete" value="Remove Rate(s)" />
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

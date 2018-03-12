@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.TripViewModel>
+@using (Html.BeginForm("AchiveData", "DataArchive", FormMethod.Post))
+{
+    <input type="submit" style="position:relative;left:30px" class="btn btn-danger btn-raised" name="multipleDelete" value="Archive Trip(s)" />
+    <br />
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                <input type="checkbox" id="checkAll" />
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoucherNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackagesList)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" class="tripsToAchive" name="tripsToAchive" id="tripsToAchive" value="@item.TripId" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoucherNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    @item.Updatedby @item.UpdatedDate
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var items in item.PackagesList.GroupBy(x => x.PreDefineTripName).Select(y => y.First()))
+                        {
+                            <li>@Html.DisplayFor(modelItem => items.PreDefineTripName)</li>
+                        }
+                    </ul>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+    </table>
+    @*@Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised", style = "position:relative;left:980px;width:120px" })*@
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+    $(document).ready(function () {
+        //$("#checkAll").click(function () {
+        //    $(".tripsToAchive").prop('checked', $(this).prop('checked'));
+        //});
+        $('input:checkbox').prop('checked', true);
+        $('input:checkbox').css('display', 'none');
+    });
+</script>

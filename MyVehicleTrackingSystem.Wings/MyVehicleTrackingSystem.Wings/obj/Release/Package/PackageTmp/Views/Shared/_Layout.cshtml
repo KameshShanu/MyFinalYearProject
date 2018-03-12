@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Navil Enterprises</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/CustomStyleWings.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/tag/chosen.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-material-design.min.css" rel="stylesheet" />
+    <link href="~/Content/ripples.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/CustomReports.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <style>
+        /*body {
+            background-image: url('../../Content/Images/back2.jpg');
+            min-height: 100vh;
+            background-size: cover;
+        }*/
+        #top-nav-bar {
+            box-shadow: 1px 1px 1px 1px #ddd !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top shade" id="top-nav-bar">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Navil Enterprises", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="body-content margin-top-20  ">
+        @RenderBody()
+    </div>
+    @*<div class="col-xs-12">
+            <footer class="bottom-fixed-footer footer-bg">
+                <p class="heading-xs">@DateTime.Now.Year - Leap Runner Taxi Dispatcher - Powered By Hypercent</p>
+            </footer>
+        </div>*@
+    <!--Session Timeout Notification Popup-->
+    <div class="modal fade" id="SessionTimeoutNotificationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Navil Enterprises Login Notification.</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            Hey, Since you are inactive in Navil Enterprises (PVT) Ltd site, your login session will expire in 1 minute. Then you will be redirected to the login page after the session expiration time. Please login to the site again. Thank you!
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-raised" data-dismiss="modal" style="position: relative; right: 255px; bottom: 10px">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/Session Timeout Notification Popup-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/material.min.js"></script>
+    <script src="~/Scripts/ripples.min.js"></script>
+    <script>
+        $(function () {
+            $.material.init();
+        });
+
+        var sessionTimeoutWarning = @System.Configuration.ConfigurationManager.AppSettings["SessionWarning"].ToString();
+        var sTimeout = parseInt(sessionTimeoutWarning) * 60 * 1000;
+        setTimeout('SessionWarning()', sTimeout);
+
+        function SessionWarning() {
+            $('#SessionTimeoutNotificationModal').modal('show');
+        }
+
+        $("#SessionTimeoutNotificationModal").on("hidden.bs.modal", function () {
+            $.ajax({
+                url: "/Account/LogOff",
+                cache: false,
+                type: "POST",
+                success: function (response) {
+                    window.location.href = "/Account/Login";
+                },
+                error: function (reponse) {
+                    console.log(JSON.stringify(response));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿@model Hypercent.Wings.Models.VehicleViewModel
+
+@{
+    ViewBag.Title = "ManageVehicles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("UpdateVehicleUnAvailable", "Administrator", FormMethod.Post))
+{
+   
+    <div class="row well margin-top-20 create-forms">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Available Vehicle List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Vehicle Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Last Updated Date")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Availability")
+                    </th>
+                   
+                </tr>
+                @foreach (var item in Model.VehicleAvailableList)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="vehiclesToUpdate" id="vehiclesToUpdate" value="@item.VehicleId" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modified)
+                        </td>
+                        <td>
+                            @if (item.IsAvailable.Equals(false))
+                            {
+                                @Html.DisplayName("Available")
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Back", "Index", "Administrator", null, new { @class = "btn btn-raised btn-info" })
+            <input type="submit" class="btn btn-raised btn-warning" name="multipleUpdate" value="Make Unavailable" />
+        </fieldset>
+    </div>
+}
+@using (Html.BeginForm("UpdateVehicleAvailable", "Administrator", FormMethod.Post))
+{
+
+    <div class="row well margin-top-20 create-forms">
+        @Html.AntiForgeryToken()
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Unavailable Vehicle List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Vehicle Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Last Updated Date")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Availability")
+                    </th>
+                </tr>
+                @foreach (var item in Model.VehicleUnAvailableList)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="vehiclesToUpdate" id="vehiclesToUpdate" value="@item.VehicleId" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modified)
+                        </td>
+                        <td>
+                            @if (item.IsAvailable.Equals(true))
+                            {
+                                @Html.DisplayName("Unavailable")
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Back", "Index", "Administrator", null, new { @class = "btn btn-raised btn-info" })
+            <input type="submit" class="btn btn-raised btn-warning" name="multipleUpdate" value="Make Available" />
+        </fieldset>
+    </div>
+}
+@section Scripts {
+    <script>
+        $(function () {
+            $("input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        });
+    </script>
+}

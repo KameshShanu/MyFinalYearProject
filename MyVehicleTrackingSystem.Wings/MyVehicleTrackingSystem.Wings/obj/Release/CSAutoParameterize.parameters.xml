@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="WingsContext-Web.config Connection String" description="WingsContext Connection String used in web.config by the application to access the database." defaultValue="Data Source=navildb.cgztbhnfqaey.ap-southeast-1.rds.amazonaws.com,1433;Initial Catalog=navilqadb;User id=naviluser;password=1qaz2wsx;MultipleActiveResultSets=true" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\Kamesh\\Documents\\GitHub\\Navil\ Enterprices\\NavilEnterprises\\Hypercent\.Wings\\Hypercent\.Wings\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='WingsContext']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,43 @@
+﻿@model Hypercent.Wings.Models.BataRateViewModel
+
+@{
+    ViewBag.Title = "EditBataRate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row margin-top-20">
+        <div class="col-md-8 well form-horizontal create-forms col-centered">
+            <div class="row remove-margin form-heading">
+                <div class="form-icon yellow col-xs-2"><i class="fa fa-usd"></i></div>
+                <div class="text-yellow col-xs-10">Edit Bata Details</div>
+            </div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row remove-margin clearfix">
+                <div class="text-center">
+                    @Html.ActionLink("Back", "Index", null, new { @class = "btn btn-raised btn-info" })
+                    <input type="submit" id="submit" name="button" value="SAVE BATA" class="btnSubmit btn btn-info btn-raised" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

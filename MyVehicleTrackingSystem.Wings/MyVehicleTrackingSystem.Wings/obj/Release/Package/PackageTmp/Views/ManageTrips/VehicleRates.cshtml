@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.VehicleRateViewModel>
+@{
+    ViewBag.Title = "Vehicle Rates";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New Vehicle Rate", "CreateVehicleRate", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.VehicleType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DistanceType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FarePerKm)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DistanceType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FarePerKm)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditVehicleRate", new { id = item.VehicleRateId }) |
+                @*@Html.ActionLink("Details", "Details", new { /* id=item.DriverId */ }) |*@
+                @Html.ActionLink("Delete", "DeleteVehicleRate", new { id = item.VehicleRateId })
+            </td>
+        </tr>
+    }
+</table>
+

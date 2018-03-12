@@ -1,0 +1,143 @@
+﻿@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.TripViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="well margin-top-20 create-forms">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="row  margin-top-20">
+                    <div class="col-md-12">
+                        <h3>Data Archive Requests</h3><br />
+                        @Html.ValidationSummary(true, "", new { @class = "text-success" })
+                        <div class="col-sm-6 ">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <span class="label label-success">From</span>
+                                    <div id="datepicker" class="input-group" data-date-format="yyyy-MM-dd">
+                                        <input class="form-control date" name="StartDate" id="StartDate" type="text" readonly />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                    <span style="color:red" id="errorStart" class="errorStart"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <span class="label label-success">To</span>
+                                    <div id="datepicker" class="input-group" data-date-format="yyyy-MM-dd">
+                                        <input class="form-control date" name="EndDate" id="EndDate" type="text" readonly />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                    <span style="color:red" id="errorEnd" class="errorEnd"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-9">
+                                @Html.ActionLink("Back", "Menu", "DataArchive", null, new { @class = "btn btn-info noPrint btn-raised" })
+                                <input type="submit" class="btnSubmit btn btn-default btn-raised" value="Archive" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+            @section Scripts {
+                <script type="text/javascript">
+                    var status1;
+                    var status2;
+                    $(function () {
+                        $('.date').datetimepicker({
+                            ignoreReadonly: true
+                        });
+                    });
+                    $(function () {
+                        $('input[id="StartDate"]').datetimepicker({
+                            defaultDate: new Date()
+                        }).on('dp.change', function (event) {
+                            var currentDate = moment(new Date()).format("YYYY/MM/DD");
+                            var newDate = moment(event.date).format("YYYY/MM/DD");
+                            if (newDate > currentDate) {
+                                $('.errorStart').text('Please select a date before today');
+                                status1 = 1;
+                            }
+                            else {
+                                $('.errorStart').text('');
+                                status1 = null;
+                            }
+                        });
+                    });
+                    $(function () {
+                        $('input[id="EndDate"]').datetimepicker({
+                            defaultDate: new Date()
+                        }).on('dp.change', function (event) {
+                            var currentDate = moment(new Date()).format("YYYY/MM/DD");
+                            var newDate = moment(event.date).format("YYYY/MM/DD");
+                            if (newDate > currentDate) {
+                                $('.errorEnd').text('Please select a date before today');
+                                status2 = 1;
+                            }
+                            else {
+                                $('.errorEnd').text('');
+                                status2 = null;
+                            }
+                        });
+                    });
+
+                    $("form").submit(function (event) {
+                        if (returnStatus() != true) {
+                            event.preventDefault();
+                        }
+                    });
+
+
+                    function returnStatus() {
+                        var validated = true;
+                        var EndDate = $('#EndDate').val();
+                        var StartDate = $('#StartDate').val();
+                        if (StartDate == '') {
+                            $('.errorStart').text('Please select start date');
+                            $('.errorEnd').text('');
+                            validated = false;
+                        }
+                        else if (EndDate == '') {
+                            $('.errorEnd').text('Please select end date');
+                            $('.errorStart').text('');
+                            validated = false;
+                        }
+                        else if (status1 == 1) {
+                            $('.errorStart').text('Please select a valid date');
+                            $('.errorEnd').text('');
+                            validated = false;
+                        }
+                        else if (status2 == 1) {
+                            $('.errorEnd').text('Please select a valid date');
+                            $('.errorStart').text('');
+                            validated = false;
+                        }
+                        else if (+EndDate < +StartDate) {
+                            $('.errorEnd').text('Please select a valid date');
+                            $('.errorStart').text('');
+                            validated = false;
+                        }
+                        else {
+                            $('.errorStart').text('');
+                            $('.errorEnd').text('');
+                            //$("#viewPlaceHolder").load("/DataArchive/Index",
+                            //        { StartDate: StartDate, EndDate: EndDate });
+
+                        }
+                        return validated;
+                    }
+                </script>
+            }
+
+

@@ -1,0 +1,156 @@
+﻿@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.DispatchNoteViewModel>
+
+@{
+    ViewBag.Title = "Closed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .nav-tabs > li > a {
+        color: #000 !important;
+    }
+
+        .nav-tabs > li > a:hover {
+            color: rgba(0,0,0,0.2) !important;
+        }
+</style>
+
+<ul class="nav nav-tabs" role="tablist">
+    @if (!User.IsInRole("Accounting Staff"))
+    {
+        <li role="presentation"> <a href='@Url.Action("Open", "Dispatch")' title="Open">Open</a></li>
+    }
+    <li role="presentation" class="active"><a href='@Url.Action("Closed", "Dispatch")' title="Closed">Closed</a></li>
+    <li role="presentation" class=""><a href='@Url.Action("Cancelled", "Dispatch")' title="Cancelled">Cancelled</a></li>
+</ul>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well margin-top-20 create-forms">
+            <div class="col-md-12 marginBottom tableTitle row remove-margin form-heading">
+                @*<div class="form-icon light-blue col-xs-1"><i class="fa fa-user-plus"></i></div>*@
+                <div class="text-light-blue col-xs-12">Closed Dispatch</div>
+            </div>
+            <div class="form-horizontal">
+                <fieldset class="scheduler-border">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="tbtr">
+                                @if (User.IsInRole("Accounting Staff"))
+                                {
+                                    <th>
+                                        <input type="checkbox" name="checkbox1" id="checkAll" />
+                                        <label for="checkbox1"></label>
+                                    </th>
+                                }
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DispatchId)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Client - Operation Type")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CompanyAddress)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Quantity)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Driver)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleLicensePlateNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DispatchDate)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    @if (User.IsInRole("Accounting Staff"))
+                                    {
+                                        <td>
+                                            <input type="checkbox" name="dispatchNoteToSelect" id="dispatchNoteToSelect" value="@item.DispatchNoteId" />
+                                        </td>
+                                    }
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DispatchId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Client)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CompanyAddress)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Quantity)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Driver)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VehicleLicensePlateNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DispatchDate)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("View", "ClosedCancelledView", new { id = item.DispatchNoteId }, new { @class = "viewbtn btn btn-default btn-raised" })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <p>
+                        @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/paginathing.js"></script>
+    <script>
+        $(function () {
+            $("#checkAll").click(function () {
+                if ($("#checkAll").is(':checked')) {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", true);
+                    });
+
+                } else {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", false);
+                    });
+                }
+            });
+        });
+
+        // Uncheck All Checkboxes
+        function uncheckAll() {
+            $("input[type='checkbox']:checked").prop("checked", false)
+        }
+        $('#clearcheckbox').on('click', uncheckAll)
+
+        //Add pagination fuctionality
+        jQuery(document).ready(function ($) {
+            for (var i = 1; i <= 500; i++) {
+                $('.list-group').append('<li class="list-group-item"> Item ' + i + '</li>');
+            }
+
+            $('.table tbody').paginathing({
+                limitPagination: false,
+                perPage: 10,
+                insertAfter: '.table',
+                containerClass: 'panel-footer'
+            });
+        });
+    </script>
+}
+

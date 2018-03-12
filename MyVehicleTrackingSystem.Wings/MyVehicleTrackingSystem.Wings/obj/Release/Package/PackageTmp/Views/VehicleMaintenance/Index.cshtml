@@ -1,0 +1,72 @@
+﻿@model Hypercent.Wings.Models.VehicleMaintenanceListViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("MultipleVehicleMaintenanceDelete", "VehicleMaintenance", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well margin-top-20 create-forms">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset class="scheduler-border">
+                    <p>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleNumber, htmlAttributes: new { @class = "control-label col-md-3", @style= "font-weight: bold" })
+                            <div class="col-md-9">
+                                @Html.DropDownListFor(m => m.VehicleNumber, Model.VehicleNumbers, "-- Please Select --", new { @VehicleNumber = "VehicleNumber", @class = "form-control", @style = "margin-left:30px" })
+                                @Html.ValidationMessageFor(model => model.VehicleNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </p><br /><br /><br /><br />
+                    <p>
+                        @Html.ActionLink("Add New Vehicle Maintenance Record", "Create", null, new { @class = "btn btn-default  btn-raised" })
+                    </p>
+                    <table class="table table-bordered" id="maintenanceDataTable">
+                        <tr class="tbtr">
+                            <th>
+                                <input type="checkbox" id="checkAll" />
+                            </th>
+                            <th>
+                                @Html.DisplayName("Maintenance Date")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Maintenance Description")
+                            </th>
+                            <th>
+                                @Html.DisplayName("Maintenance Cost")
+                            </th>
+                            <th></th>
+                        </tr>
+                    </table>
+                    @Html.ActionLink("Back", "Gateway", "Vehicle", null, new { @class = "btn btn-info btn-raised" })
+                    <input type="submit" class="btn btn-raised btn-default trigger-btn" name="multipleDelete" data-toggle="modal" data-target="#myModal" value="Remove Record(s)" />
+                </fieldset>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this data ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" id="clearcheckbox" class="btn btn-raised btn-default trigger-btn" data-dismiss="modal" value="Close">
+                        <input type="submit" class="btn btn-raised btn-default trigger-btn" name="multipleDelete" value="Confirm Delete" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/LeapRunner/VehicleMaintenance/index.js"></script>
+}

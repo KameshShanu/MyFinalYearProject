@@ -1,0 +1,115 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.TripViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="icon-nav lg-only">
+    <a href='@Url.Action("Index", "Trips")' title="Open"><span class="">Open</span></a>
+    <a href='@Url.Action("ClosedIndex", "Trips")' title="Closed"><span class="" value="">Closed</span></a>
+    <a href='@Url.Action("RemovedIndex", "Trips")' title="Cancelled"><span class="" value="">Cancelled</span></a>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+       
+        <div class="well margin-top-20 create-forms">
+            <h3 class="dis">Dispatch Requests</h3>
+        <br />
+        <p>
+            @Html.ActionLink("Create New Dispatch Request", "Create", null, new { @class = "btn btn-default btn-raised create_request", style = "position:relative;top:50x" })
+        </p>
+        @using (Html.BeginForm())
+        {
+            <input type="text" placeholder="Enter Voucher Number Here" class="form-control" name="searchString" style="position:relative;left:760px;bottom:50px;width:250px" />
+            <input type="submit" class="btn btn-default btn-raised" value="Search" style="position:relative;left:1030px;bottom:115px" name="search" />
+            <table class="table table-bordered">
+                <tr class="tbtr">
+                    @*<th>
+                            <input type="checkbox" id="checkAll" />
+                        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.VoucherNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DriverName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Createdby)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackagesList)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GuestName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>Actions</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VoucherNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VehicleNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DriverName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Createdby)
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var items in item.PackagesList.GroupBy(x => x.PreDefineTripName).Select(y => y.First()))
+                            {
+                                <li>@Html.DisplayFor(modelItem => items.PreDefineTripName)</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GuestName)
+                    </td>
+                    <td>
+                        <label style="color:black">@item.PackagesList.GroupBy(x => x.PreDefineTripName).Select(y => y.First()).Sum(i => i.Rate)</label>
+                        @*@Html.DisplayFor(modelItem =>  item.PackagesList.Sum(i => i.Rate))*@
+                    </td>
+                    <td>
+                        @Html.ActionLink("Update Voucher", "Edit", "Trips", new { id = item.TripId }, new { @class = "btn btn-default btn-raised create_request" })
+                    </td>
+                </tr>
+            }
+            </table>
+            @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+            @*<input type="submit" style="position:relative;left:500px" class="btn btn-danger btn-raised" name="multipleDelete" value="Remove Dispatch Request(s)" />*@
+            }
+            @section Scripts {
+
+            </div>
+        </div>
+    </div>
+       
+            <script>
+                var links = $(".create_request");
+
+                for (var i = 0; i < links.length; i++) {
+                    links[i].setAttribute("data-href", links[i].getAttribute("href"));
+                    links[i].removeAttribute("href");
+                    links[i].onclick = function () {
+                        window.location = this.getAttribute("data-href");
+                    };
+                }
+            </script>
+        }

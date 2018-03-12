@@ -1,0 +1,239 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.AdvertisementViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row well margin-top-20 create-forms">
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <button type="submit" class="btn btn-primary btn-raised" data-toggle="modal" data-target="#addNewCategory">
+        <span class="glyphicon glyphicon-plus"></span> Advertisement Category
+    </button>
+    <div id="category_table" name="category_table" class="tbl-order-details">
+        <table></table>
+        @foreach (var item in Model.AdvertisementCategory.OrderBy(a => a.OrderId))
+        {
+            <table class="table tbl-order-details table-bordered" name="@item.CategoryId" id="@item.CategoryName">
+                <tr class="bottom-solid-border">
+                    <th>Actions</th>
+                    <th>Category</th>
+                    <th>Item</th>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="@Url.Action("EditAdvertisementCategory", "Advertisement", new { id = item.CategoryId })">
+                            <span id="categoryId" class="glyphicon glyphicon-pencil" value="@item.CategoryId" data-toggle="modal" data-target="#editCategory"></span>
+                        </a>&nbsp
+                        @Html.ActionLink(" ", "DeleteAdvertisementCategory", "Advertisement", new { id = item.CategoryId }, new { @class = "glyphicon glyphicon-trash" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CategoryName)
+                    </td>
+                    <td>
+                        <table class="table tbl-order-details table-bordered" id="item_table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayName("Advertisement")
+                                </th>
+                                <th class="remove-top-padding">
+                                    <button type="button" class="btn btn-primary btn-raised btn-sm btnCategoryId" value="@item.CategoryId" name="CategoryId" id="btnCategoryId" data-toggle="modal" data-target="#addNewItem">Add Items</button>
+                                </th>
+                            </tr>
+                            <tbody>
+                                @foreach (var items in item.AdvertisementItem.OrderBy(a => a.OrderId))
+                                {
+                                    <tr value="@items.ItemId" id="@items.CategoryId">
+                                        <td>@Html.DisplayFor(modelItem => items.ItemName)</td>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("EditAdvertisementItem", "Advertisement", new { id = items.ItemId })">
+                                                <span id="itemId" class="glyphicon glyphicon-pencil" value="@items.ItemId" data-toggle="modal" data-target="#editItems"></span>
+                                            </a>&nbsp
+                                            @Html.ActionLink(" ", "DeleteAdvertisementItem", "Advertisement", new { id = items.ItemId }, new { @class = "glyphicon glyphicon-trash" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+</div>
+<!--Create Advertisement Category-->
+<div class="container">
+    <div class="modal fade" id="addNewCategory" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Advertisement Category</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("CreateAdvertisementCategory", "Advertisement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Category.CategoryName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Category.CategoryName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Category.UploadFile, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                <input type="file" name="Category.UploadFile" id="Category.UploadFile" class="filestyle " data-buttonName="btn-primary" data-size="sm" required="required" />
+                                @Html.ValidationMessageFor(model => model.Category.UploadFile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row remove-margin clearfix">
+                        <div class="text-center">
+                            <input type="submit" id="submit" name="button" value="SAVE Category" class="btn btn-info btn-raised" />
+                            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Create Advertisement Item-->
+<div class="container">
+    <div class="modal fade" id="addNewItem" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Advertisement</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("CreateAdvertisementItem", "Advertisement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(model => model.Item.CategoryId, new { @id = "hiddenCategoryId" })
+                        @Html.HiddenFor(model => model.Item.ItemId, new { @id = "hiddenItemId" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Item.ItemName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Item.ItemName, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Item.ItemName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Item.UploadFile, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                <input type="file" name="Item.UploadFile" id="Item.UploadFile" class="filestyle " data-buttonName="btn-primary" data-size="sm" required="required" />
+                                @Html.ValidationMessageFor(model => model.Item.UploadFile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row remove-margin clearfix">
+                        <div class="text-center">
+                            <input type="submit" id="submit" name="button" value="SAVE ITEM" class="btn btn-info btn-raised" />
+                            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Update Advertisement Category-->
+<div class="container">
+    <div class="modal fade" id="editCategory" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Advertisement Category</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("EditAdvertisementCategory", "Advertisement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(model => model.Category.CategoryId, new { @id = "hiddenCategoryIdEdit" })
+                        @Html.HiddenFor(model => model.Category.FileURL, new { @id = "hiddenCategoryUrlEdit" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Category.CategoryName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Category.CategoryName, new { htmlAttributes = new { id = "CategoryNameEdit", @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Category.CategoryName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Category.UploadFile, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                <input type="file" name="Category.UploadFile" id="UploadFileCategoryEdit" class="filestyle " data-buttonName="btn-primary" data-size="sm" />
+                                @Html.ValidationMessageFor(model => model.Category.UploadFile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row remove-margin clearfix">
+                        <div class="text-center">
+                            <input type="submit" id="submit" name="button" value="UPDATE Category" class="btn btn-info btn-raised" />
+                            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Update Advertisement Item-->
+<div class="container">
+    <div class="modal fade" id="editItems" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Advertisement</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("EditAdvertisementItem", "Advertisement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                    <div class="form-horizontal">
+                        @Html.HiddenFor(model => model.Item.CategoryId, new { @id = "hiddenCategoryIdEdit" })
+                        @Html.HiddenFor(model => model.Item.ItemId, new { @id = "hiddenItemIdEdit" })
+                        @Html.HiddenFor(model => model.Item.FileURL, new { @id = "hiddenItemUrlEdit" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Item.ItemName, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Item.ItemName, new { htmlAttributes = new { id = "ItemNameEdit", @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Item.ItemName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Item.UploadFile, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-12">
+                                <input type="file" name="Item.UploadFile" id="UploadFileItemEdit" class="filestyle " data-buttonName="btn-primary" data-size="sm" />
+                                @Html.ValidationMessageFor(model => model.Item.UploadFile, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row remove-margin clearfix">
+                        <div class="text-center">
+                            <input type="submit" id="submit" name="button" value="UPDATE ITEM" class="btn btn-info btn-raised" />
+                            <button type="button" class="btn btn-danger btn-raised" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @Scripts.Render("~/bundles/sortable")
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/user_js/advertisement_view_script.js"></script>
+    <script type="text/javascript">
+        $(":file").filestyle({ input: false, buttonName: "btn-primary btn-raised", size: "sm" });
+    </script>
+}
+
+
+

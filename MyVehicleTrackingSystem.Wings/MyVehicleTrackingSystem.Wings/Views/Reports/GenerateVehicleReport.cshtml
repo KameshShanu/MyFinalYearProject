@@ -1,0 +1,223 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.ReportViewModel
+@{
+    ViewBag.Title = "Vehicle Report";
+    Layout = "~/Views/Shared/_ReportLayout.cshtml";
+}
+<link rel='stylesheet' type='text/css' href='~/Content/InvoiceStyle.css' />
+<link rel='stylesheet' type='text/css' href='~/Content/InvoiceStylesPrint.css' media="print" />
+<link href="~/Content/CustomReports.css" rel="stylesheet" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="noPrint">
+        <div class="row row">
+            <div class="form-group">
+                <div class="col-md-9 panel">
+                    <span class="label label-success">Vehicle Number</span>
+                    @Html.DropDownListFor(m => m.ReportDto.VehicleId, Model.Vehicle, new { @class = "form-control dropdown-toggle" })
+                </div>
+            </div>
+        </div>
+        <div class="row row">
+            <div class="form-group">
+                <div class="col-md-9 panel">
+                    <span class="label label-success">Voucher Status</span>
+                    @Html.DropDownListFor(m => m.ReportDto.Status, Model.VoucherStatus, new { @class = "form-control dropdown-toggle" })
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 admin-functions">
+            <div class="form-group">
+                <div class="col-md-6 panel">
+                    <span class="label label-success">From</span>
+                    <div id="datepicker" class="input-group" data-date-format="yyyy-MM-dd">
+                        @Html.TextBoxFor(model => model.ReportDto.StartDate, new { @Value = " ", @readonly = "readonly", @class = "form-control date" })
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                    <span style="color:red" id="errorStart" class="errorStart"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 admin-functions">
+            <div class="form-group">
+                <div class="col-md-6 panel">
+                    <span class="label label-success">To</span>
+                    <div id="datepicker" class="input-group" data-date-format="yyyy-MM-dd">
+                        @Html.TextBoxFor(model => model.ReportDto.EndDate, new { @Value = " ", @readonly = "readonly", @class = "form-control date" })
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                    <span style="color:red" id="errorEnd" class="errorEnd"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row">
+            <div class="form-group">
+                <div class="col-md-9">
+                    <input type="submit" class="btnSubmit btn btn-info noPrint btn-raised" value="Generate Report" />
+                    @Html.ActionLink("Back", "Index", "Reports", null, new { @class = "btn btn-info noPrint btn-raised" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div id="report_content" style="opacity:0">
+    <div>
+        <a href="javascript:window.print()" class="btn btn-warning noPrint btn-raised">Print Report</a>
+        @Html.ActionLink("Export to Excel", "ExportToExcelVehicleReport", "Reports", Model.DriverReportList, new { @class = "btn btn-info noPrint btn-raised" })
+    </div>
+    <div>
+        <img id="logo_Align" src="~/Content/Images/4.png" />
+    </div>
+    <div>
+        <img id="DTRH" src="~/Content/Images/2.png" />
+    </div>
+    <div>
+        <span>
+            Generated From : @Model.ReportDto.StartDate.ToString("yyyy/MM/dd")    To : @Model.ReportDto.EndDate.ToString("yyyy/MM/dd")
+        </span>
+    </div>
+    <div>
+        <span>
+            Created By : @Request.Cookies["LoggedUser"].Value
+        </span>
+    </div>
+    <div>
+        <span>
+            Generated Date: @Model.CurrentDate.ToString("yyyy/MM/dd")
+        </span>
+    </div>
+    <div>
+        <span>
+            Generated Time : @Model.CurrentDate.ToString("h:mm tt")
+        </span>
+    </div>
+    <br /><br />
+    <table class="table table-bordered table-responsive">
+        <tr>
+            <th>
+                Voucher Number
+            </th>
+            <th>
+                Created
+            </th>
+            <th>
+                Updated
+            </th>
+            <th>
+                Vehicle Reg No
+            </th>
+            <th>
+                Driver Name
+            </th>
+            <th>
+                Trip Name
+            </th>
+            <th>
+                Meter Reading Start
+            </th>
+            <th>
+                Meter Reading End
+            </th>
+            <th>
+                Trip Mileage
+            </th>
+            <th>
+                Trip Duration
+            </th>
+            <th>
+                Remarks
+            </th>
+            <th>
+                Amount
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+        @foreach (var item in Model.VehicleReportList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoucherNumber)
+                </td>
+                <td>
+                    @item.Createdby @item.CreatedDate
+                </td>
+                <td>
+                    @if (item.Status != "Open")
+                    {
+                        @item.Updatedby @item.UpdatedDate
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var items in item.PackagesList.GroupBy(x => x.PreDefineTripName).Select(y => y.First()))
+                        {
+                            <li>@Html.DisplayFor(modelItem => items.PreDefineTripName)</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeterReadingOut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MeterReadingIn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TripMileage)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TripDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <span class="lbl lbl-success">
+                    <label class="lbl lbl-error">Total : @Model.VehicleReportList.Sum(i => i.Amount)</label>
+                </span>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/user_js/vehicle_report_script.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            if ('@ViewBag.Content' == 'True') {
+                jQuery('#report_content').css('opacity', '1');
+                $('#ReportDto_StartDate').val('@Model.ReportDto.StartDate');
+                $('#ReportDto_EndDate').val('@Model.ReportDto.EndDate');
+            }
+        });
+    </script>
+}

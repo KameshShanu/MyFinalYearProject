@@ -1,0 +1,93 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.OperationTypeViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("MultipleOperationTypesDelete", "OperationType", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well margin-top-20 create-forms">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset class="scheduler-border">
+                    <p>
+                        @Html.ActionLink("Add New Operation Type", "Create", null, new { @class = "btn btn-default  btn-raised" })
+                    </p>
+                    <table class="table table-bordered">
+                        <tr class="tbtr">
+                            <th>
+                                <input type="checkbox" id="checkAll" />
+                            </th>
+                            <th>
+                                @Html.DisplayName("Company Name")
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OperationTypeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ClientRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DriverCommissionRate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PorterCommissionRate)
+                            </th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" name="OperationTypesToDelete" id="OperationTypesToDelete" value="@item.OperationTypeId" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Client.CompanyName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.OperationTypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ClientRate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DriverCommissionRate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PorterCommissionRate)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.OperationTypeId }, new { @class = "editbtn btn btn-default btn-raised" })
+                                    <br>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                    @Html.ActionLink("Back", "Index", "Client", null, new { @class = "btn btn-info btn-raised" })
+                    <input type="submit" class="btn btn-raised btn-default" name="multipleDelete" value="Remove Operation Type(s)" />
+                </fieldset>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+@Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(function () {
+            $("#checkAll").click(function () {
+                if ($("#checkAll").is(':checked')) {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", true);
+                    });
+
+                } else {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", false);
+                    });
+                }
+            });
+        });
+    </script>
+}

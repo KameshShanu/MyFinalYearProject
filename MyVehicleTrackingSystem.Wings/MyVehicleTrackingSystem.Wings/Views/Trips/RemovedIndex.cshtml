@@ -1,0 +1,92 @@
+﻿@*@model PagedList.IPagedList<MyVehicleTrackingSystem.Wings.Models.TripViewModel>*@
+@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.TripViewModel>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Removed Vouchers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+<div class="icon-nav lg-only">
+    <a href='@Url.Action("Index", "Trips")' title="Open"><span class="">Open</span></a>
+    <a href='@Url.Action("ClosedIndex", "Trips")' title="Closed"><span class="" value="">Closed</span></a>
+    <a href='@Url.Action("RemovedIndex", "Trips")' title="Cancelled"><span class="" value="">Cancelled</span></a>
+</div>
+<h2>Removed By Dispatcher</h2>
+<br />
+<br />
+@using (Html.BeginForm())
+{
+    <input type="text" placeholder="Enter Voucher Number Here" class="form-control" name="searchString" style="position:relative;left:760px;bottom:50px;width:250px" />
+    <input type="submit" class="btn btn-success btn-raised" value="Search" style="position:relative;left:1030px;bottom:115px" name="search" />
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                @Html.DisplayName("VoucherNumber")
+            </th>
+            <th>
+                @Html.DisplayName("VehicleNo")
+            </th>
+            <th>
+                Driver Name
+            </th>
+            <th>
+                @Html.DisplayName("Created Date")
+            </th>
+            <th>
+                @Html.DisplayName("Updated Date")
+            </th>
+            <th>
+                @Html.DisplayName("Remarks")
+            </th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var item in Model.OrderByDescending(a => a.UpdatedDate))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VoucherNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DriverName)
+                </td>
+                <td>
+                    @item.Createdby @item.CreatedDate
+                </td>
+                <td>
+                    @item.Updatedby @item.TimeIn
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remarks)
+                </td>
+                <td>
+                    @Html.ActionLink("View", "Details", "Trips", new { id = item.TripId }, new { @class = "btn btn-success btn-raised" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+<div>
+    @if (ViewBag.SearchData == null)
+    {
+        if (ViewBag.Page > 1)
+        {
+            <a href="@Url.Action("RemovedIndex", new { page = ViewBag.Page - 1 })"
+               class="btn btn-success btn-raised">
+                &laquo; Prev
+            </a>
+        }
+        if (ViewBag.Page < ViewBag.MaxPage)
+        {
+            <a href="@Url.Action("RemovedIndex", new { page = ViewBag.Page + 1 })"
+               class="btn btn-success btn-raised">
+                Next &raquo;
+            </a>
+        }
+    }
+    @*@Html.PagedListPager(Model, page => Url.Action("ClosedIndex", new { page }))
+        Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Trips*@
+</div>
+<div>@Html.ActionLink("Back", "Index", "Trips", null, new { @class = "btn btn-info btn-raised" })</div>

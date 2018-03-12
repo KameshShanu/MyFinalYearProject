@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.InvoiceViewModel>
+
+@{
+    ViewBag.Title = "Open Invoices";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .nav-tabs > li > a {
+        color: #000 !important;
+    }
+
+        .nav-tabs > li > a:hover {
+            color: rgba(0,0,0,0.2) !important;
+        }
+</style>
+
+@*<div class="icon-nav lg-only" style="position:fixed;top:180px">
+        <a href='@Url.Action("Open", "Invoice")' title="Open"><span class="">Open</span></a>
+        <a href='@Url.Action("Approved", "Invoice")' title="Approved"><span class="" value="">Approved</span></a>
+        <a href='@Url.Action("Rejected", "Invoice")' title="Rejected"><span class="" value="">Rejected</span></a>
+        <a href='@Url.Action("Closed", "Invoice")' title="Closed"><span class="" value="">Closed</span></a>
+    </div>*@
+
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"> <a href='@Url.Action("Open", "Invoice")' title="Open">Open</a></li>
+    <li role="presentation"><a href='@Url.Action("Approved", "Invoice")' title="Approved">Approved</a></li>
+    <li role="presentation" class=""><a href='@Url.Action("Rejected", "Invoice")' title="Rejected">Rejected</a></li>
+    <li role="presentation" class=""><a href='@Url.Action("Closed", "Invoice")' title="Closed">Closed</a></li>
+</ul>
+<div class="row">
+    <div class="col-md-12">
+        <div class="well margin-top-20 create-forms">
+            <div class="col-md-12 marginBottom tableTitle row remove-margin form-heading">
+                @*<div class="form-icon light-blue col-xs-1"><i class="fa fa-user-plus"></i></div>*@
+                <div class="text-light-blue col-xs-12">Open Invoices</div>
+            </div>
+            <div class="form-horizontal">
+                <fieldset class="scheduler-border">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="tbtr">
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InvoiceType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.SVAT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VAT)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InvoiceDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.InvoiceNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayName("Client")
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Address)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Amount)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalValue)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SVAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VAT)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                                    </td>
+                                    <td>
+                                        @*Client*@
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Address)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Amount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalValue)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Details", "Details", new { id = item.InvoiceId })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <p>
+                        @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>

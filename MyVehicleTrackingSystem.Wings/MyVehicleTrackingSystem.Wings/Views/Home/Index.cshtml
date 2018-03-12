@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br /><br />
+<div class="row">
+    <div class="col-md-12">
+        @if (Request.IsAuthenticated && !User.IsInRole("Accounting Staff") && !User.IsInRole("Dispatcher"))
+        {
+            <div class="col-md-3 admin-functions">
+                <h4 class="reporttitle">Administrator Functions</h4>
+                <div class="row padding-10-30  margin-sides-30">
+                    <div class="margin-sides-30">
+                        <hr />
+                        @if (Request.IsAuthenticated && User.IsInRole("Business Owner"))
+                        {
+                            <div class="panel panel-default">
+                                <a href="@Url.Action("UserIndex", "User")">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-2"><i class="fa fa-user fa-2"></i></div>
+                                            <div class="col-xs-10"><span>Manage Users</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+
+                        @if (Request.IsAuthenticated && !User.IsInRole("Junior Admin"))
+                        {
+                            <div class="panel panel-default">
+                                <a href="@Url.Action("Index", "Client")">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-2"><i class="fa fa-user-plus fa-2"></i></div>
+                                            <div class="col-xs-10"><span>Manage Clients</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        <div class="panel panel-default">
+                            <a href="@Url.Action("Gateway", "Vehicle")">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-2"><i class="fa fa-truck fa-2"></i></div>
+                                        <div class="col-xs-10"><span>Manage Vehicles</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="panel panel-default">
+                            <a href="@Url.Action("Index", "Driver")">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-2"><i class="fa fa-users fa-2"></i></div>
+                                        <div class="col-xs-10"><span>Manage Drivers</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="panel panel-default">
+                            <a href="@Url.Action("Index", "Helper")">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-2"><i class="fa fa-male fa-2"></i></div>
+                                        <div class="col-xs-10"><span>Manage Porters</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Request.IsAuthenticated && (User.IsInRole("Business Owner") || User.IsInRole("Dispatcher") || User.IsInRole("Manager Admin") || User.IsInRole("Accounting Staff")))
+        {
+            <div class="col-md-3 admin-functions">
+                <h4 class="reporttitle">Dispatch Counter Functions</h4>
+                <div class="row padding-10-30 margin-sides-30">
+                    <div class="margin-sides-30">
+                        <hr />
+                        <div class="panel panel-default">
+                            @if (User.IsInRole("Accounting Staff"))
+                            {
+                                <a href="@Url.Action("Closed", "Dispatch")">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-2"><i class="fa fa-truck fa-2"></i></div>
+                                            <div class="col-xs-10"><span>Manage Dispatch</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Open", "Dispatch")">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-2"><i class="fa fa-truck fa-2"></i></div>
+                                            <div class="col-xs-10"><span>Manage Dispatch</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Request.IsAuthenticated && User.IsInRole("Business Owner") || User.IsInRole("Accounting Staff") || User.IsInRole("Manager Admin"))
+        {
+            <div class="col-md-3 admin-functions">
+                <h4 class="reporttitle">Accounting Staff Functions</h4>
+                <div class="row padding-10-30 margin-sides-30">
+                    <div class="margin-sides-30">
+                        <hr />
+                        <div class="panel panel-default">
+                            <a href="@Url.Action("Open", "Invoice")">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-2"><i class="fa fa-file fa-2"></i></div>
+                                        <div class="col-xs-10"><span>Manage Invoices</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (Request.IsAuthenticated && User.IsInRole("Business Owner"))
+        {
+            <div class="col-md-3 admin-functions">
+                <h4 class="reporttitle">Reporting Functions</h4>
+                <div class="row padding-10-30 margin-sides-30">
+                    <div class="margin-sides-30">
+                        <hr />
+                        <div class="panel panel-default">
+                            <a href="@Url.Action("index", "Reports")">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-2"><i class="fa fa-files-o fa-2"></i></div>
+                                        <div class="col-xs-10"><span>Reports</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

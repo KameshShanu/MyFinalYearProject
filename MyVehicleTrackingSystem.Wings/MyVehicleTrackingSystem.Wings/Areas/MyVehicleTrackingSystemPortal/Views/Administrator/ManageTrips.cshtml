@@ -1,0 +1,182 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.TripCommonViewModel
+
+@{
+    ViewBag.Title = "Manage Trips";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("UpdateTrips", "Administrator", FormMethod.Post))
+{
+    <div class="row well margin-top-20 create-forms">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Open Trip List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Voucher Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Vechicle Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Driver Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Hotel")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Status")
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.OpenTrips)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="tripsToUpdate" id="tripsToUpdate" value="@item.TripId" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VoucherNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DriverName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DispatchedHotel)
+                        </td>
+                        @if (item.IsOpen.Equals(true))
+                    {
+                            <td>Open</td>
+                        }
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Back", "Index", "Administrator", null, new { @class = "btn btn-raised btn-info" })
+            <input type="submit" class="btn btn-raised btn-warning" name="multipleUpdate" value="Close Voucher" />
+        </fieldset>
+    </div>
+
+    <div class="row well margin-top-20 create-forms">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Closed Trip List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Voucher Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Vechicle Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Driver Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Hotel")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Status")
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.ClosedTrips)
+                {
+                    <tr>
+                        <td>
+                            @*<input type="checkbox" name="driversToUpdate" id="driversToUpdate" value="@item.TripId" />*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VoucherNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DriverName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DispatchedHotel)
+                        </td>
+                        @if (item.IsOpen.Equals(false))
+                    {
+                            <td>Closed</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+
+
+    <div class="row well margin-top-20 create-forms">
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Cancelled Trip List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Voucher Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Vechicle Number")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Driver Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Hotel")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Status")
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.CancelledTrips)
+                {
+                    <tr>
+                        <td>
+                            @*<input type="checkbox" name="driversToUpdate" id="driversToUpdate" value="@item.TripId" />*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VoucherNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VehicleNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DriverName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DispatchedHotel)
+                        </td>
+                        @if (item.IsRemoved.Equals(true))
+                    {
+                            <td>Cancelled</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </fieldset>
+    </div>
+}
+@section Scripts {
+    <script>
+        $(function () {
+            $("input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        });
+    </script>
+}

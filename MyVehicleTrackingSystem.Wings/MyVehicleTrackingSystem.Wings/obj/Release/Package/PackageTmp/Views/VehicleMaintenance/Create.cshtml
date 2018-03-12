@@ -1,0 +1,87 @@
+﻿@model Hypercent.Wings.Models.VehicleMaintenanceViewModel
+
+@{
+    ViewBag.Title = "Add New Vehicle Maintenance Record";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Create", "VehicleMaintenance", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="row">
+        <div class="col-centered col-md-7">
+
+            <div class="well margin-top-20 create-forms">
+
+                <div class="formtitle row remove-margin form-heading">
+                    <div class="form-icon light-blue col-xs-2"><i class="fa fa-pencil"></i></div>
+                    <div class="text-light-blue col-xs-10">Add New Vehicle Maintenance Record</div>
+                </div>
+                <br>
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @if (ViewData["Success"] != null)
+                        {
+                            <span class="success-msg margin-top-bottom-30" style="color:forestgreen"> @ViewData["Success"].ToString() </span>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VehicleNumbers, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.VehicleId, Model.VehicleNumbers, new { @VehicleNumber = "VehicleNumberString", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.VehicleNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DieselLiters, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">   
+                                @Html.EditorFor(model => model.DieselLiters, new { htmlAttributes = new { @class = "form-control" } })                             
+                                @Html.ValidationMessageFor(model => model.DieselLiters, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaintenanceDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                <div id="datepicker" class="input-group date" data-date-format="yyyy-MM-dd">
+                                    <input class="form-control" name="MaintenanceDate" id="MaintenanceDate"/>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                </div>
+                                @Html.ValidationMessageFor(model => model.MaintenanceDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MaintenanceDescription, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.MaintenanceDescription, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MaintenanceDescription, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Cost, htmlAttributes: new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Cost, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Cost, "", new { @class = "text-danger" })
+                            </div>
+                        </div><br /><br />
+                        <div class="form-group">
+                            <div class="text-center">
+                                @Html.ActionLink("Back", "Index", null, new { @style = "margin:none !important;", @class = "btn btn-info btn-raised" })
+                                <input type="submit" id="submit" name="button" value="SAVE RECORD" class="btn btn-default btn-raised" />
+                                <input type="submit" id="submit" name="button" value="SAVE & ADD NEW RECORD" class="btn btn-default btn-raised" />
+                                </div>
+                            </div>
+                    </div>
+                </div>               
+                <div class="row remove-margin clearfix">
+                    <div class="text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/LeapRunner/VehicleMaintenance/create.js"></script>
+}

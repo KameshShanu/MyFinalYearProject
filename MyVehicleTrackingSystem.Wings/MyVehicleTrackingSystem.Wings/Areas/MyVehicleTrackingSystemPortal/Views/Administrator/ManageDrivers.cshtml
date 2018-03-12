@@ -1,0 +1,114 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.DriverCommonViewModel
+
+@{
+    ViewBag.Title = "ManageDrivers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("UpdateDriverUnAvailable", "Administrator", FormMethod.Post))
+{
+
+    <div class="row well margin-top-20 create-forms">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Available Driver List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Driver Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Last Updated Date")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Availability")
+                    </th>
+
+                </tr>
+                @foreach (var item in Model.DriverAvailableList)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="driversToUpdate" id="driversToUpdate" value="@item.DriverId" />
+                        </td>
+                        <td>
+                            @item.FirstName @item.LastName
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modified)
+                        </td>
+                        <td>
+                            @if (item.IsAvailable.Equals(false))
+                            {
+                                @Html.DisplayName("Available")
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Back", "Index", "Administrator", null, new { @class = "btn btn-raised btn-info" })
+            <input type="submit" class="btn btn-raised btn-warning" name="multipleUpdate" value="Make Unavailable" />
+        </fieldset>
+    </div>
+}
+@using (Html.BeginForm("UpdateDriverAvailable", "Administrator", FormMethod.Post))
+{
+
+    <div class="row well margin-top-20 create-forms">
+        @Html.AntiForgeryToken()
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">Unavailable Driver List</legend>
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        @*<input type="checkbox" id="checkAll" />*@
+                    </th>
+                    <th>
+                        @Html.DisplayName("Driver Name")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Last Updated Date")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Availability")
+                    </th>
+                </tr>
+                @foreach (var item in Model.DriverUnAvailableList)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="driversToUpdate" id="driversToUpdate" value="@item.DriverId" />
+                        </td>
+                        <td>
+                            @item.FirstName @item.LastName
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Modified)
+                        </td>
+                        <td>
+                            @if (item.IsAvailable.Equals(true))
+                            {
+                                @Html.DisplayName("Unavailable")
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+            @Html.ActionLink("Back", "Index", "Administrator", null, new { @class = "btn btn-raised btn-info" })
+            <input type="submit" class="btn btn-raised btn-warning" name="multipleUpdate" value="Make Available" />
+        </fieldset>
+    </div>
+}
+@section Scripts {
+    <script>
+        $(function () {
+            $("input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        });
+    </script>
+}

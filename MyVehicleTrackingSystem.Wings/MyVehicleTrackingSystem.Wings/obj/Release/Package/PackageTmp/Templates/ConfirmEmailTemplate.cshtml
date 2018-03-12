@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    .btn-success {
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+</style>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tbody>
+        <tr>
+            <td style='background-color: #38A9D4; height: 30px; align: center'>
+                <p style='text-align: center; font-weight: bold; color: white; font-size: 20px'>Navil Enterprises</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br> <br>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tr>
+        <td align='left' style='font-family:Helvetica,Arial,sans-serif;color:#333333;padding-top:10px'>
+            <p>Dear <b>@Model.FirstName @Model.LastName</b>,</p>
+            <p>You recently signed up in Navil Enterprises.</p>
+            <p><b>Please confirm your email by clicking <a href="@Model.CallBackURL">here</a></b></p>
+            <p>If you did not sign up, please ignore this email or reply to let us know.</p>
+            <p>If you're having trouble clicking the email confirmation link, copy and paste the URL below into your web browser.</p>
+            <p>@Model.CallBackURL</p>         
+            <p>Thanks,<br>Navil Enterprises Support Team </p>
+            <br/>
+        </td>
+    </tr>
+</table>
+<br>
+<br>
+<table border='0' cellpadding='0' cellspacing='0' width='100%'>
+    <tbody>
+        <tr>
+            <td style='background-color: #38A9D4; height: 30px; align: center'>
+                <p style='text-align: center; font-weight: bold; color: white; font-size: 20px'>©   @DateTime.Now.Year  - Navil Enterprises ®</p>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,115 @@
+﻿@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.ArchiveTripViewModel>
+@{
+    ViewBag.Title = "Archived Trip Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="well margin-top-20 create-forms">
+            @using (Html.BeginForm())
+            {
+                <h3>Archived Requests</h3>
+                <br /><br />
+                <input type="text" placeholder="Enter Voucher Number Here" class="form-control" name="searchString" style="position:relative;left:760px;bottom:50px;width:250px" />
+                <input type="submit" class="btn btn-default btn-raised" value="Search" style="position:relative;left:1030px;bottom:115px" name="search" />
+                <table class="table table-bordered">
+                    <tr class="tbtr">
+                        <th>
+                            @Html.DisplayName("VoucherNumber")
+                        </th>
+                        <th>
+                            @Html.DisplayName("VehicleNo")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Driver Name")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Created Date")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Updated Date")
+                        </th>
+                        <th>
+                            @Html.DisplayName("MeterReading Out")
+                        </th>
+                        <th>
+                            @Html.DisplayName("MeterReading In")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Amount")
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                    @foreach (var item in Model.OrderByDescending(a => a.TimeIn))
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VoucherNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.VehicleNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DriverName)
+                            </td>
+                            <td>
+                                @item.Createdby @item.CreatedDate
+                            </td>
+                            <td>
+                                @item.Updatedby @item.TimeIn
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MeterReadingOut)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MeterReadingIn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+            }
+
+            <div>
+                @if (ViewBag.SearchData == null)
+                {
+                    if (ViewBag.Page > 1)
+                    {
+                        <a href="@Url.Action("ArchiveTripIndex", new { page = ViewBag.Page - 1 })"
+                           class="btn btn-success btn-raised">
+                            &laquo; Prev
+                        </a>
+                    }
+                    if (ViewBag.Page < ViewBag.MaxPage)
+                    {
+                        <a href="@Url.Action("ArchiveTripIndex", new { page = ViewBag.Page + 1 })"
+                           class="btn btn-success btn-raised">
+                            Next &raquo;
+                        </a>
+                    }
+                }
+            </div>
+
+            @Html.ActionLink("Back", "Menu", "DataArchive", null, new { @class = "btn btn-info btn-raised" })
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var links = $(".create_request");
+
+        for (var i = 0; i < links.length; i++) {
+            links[i].setAttribute("data-href", links[i].getAttribute("href"));
+            links[i].removeAttribute("href");
+            links[i].onclick = function () {
+                window.location = this.getAttribute("data-href");
+            };
+        }
+    </script>
+}

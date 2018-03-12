@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Manage App</h2>
+
+<div>
+    <div>@Html.ActionLink("Add Drivers", "Index", "Driver")</div>
+    <div>@Html.ActionLink("Add Packages", "Index", "ManageTrips")</div>
+    <div>@Html.ActionLink("Add Vehicles", "Index", "Vehicle")</div>
+</div>
+
+<br />
+@Html.ActionLink("Register New User", "Register", "User")

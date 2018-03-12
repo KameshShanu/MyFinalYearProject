@@ -1,0 +1,57 @@
+﻿@model Hypercent.Wings.Models.CorporateViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="col-md-6 well margin-top-20 create-forms col-centered">
+                <div class="form-horizontal">
+                    <div class="formtitle row remove-margin form-heading">
+                        <div class="form-icon pink col-xs-2"><i class="fa fa-building-o"></i></div>
+                        <div class="text-pink col-xs-10">Corporate Details</div>
+                    </div>
+                    <br />
+                    @if (ViewData["Success"] != null)
+                {
+            <span class="success-msg margin-top-bottom-30" style="color:forestgreen"> @ViewData["Success"].ToString() </span>
+            }
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CorporateName, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-7">
+                            @Html.EditorFor(model => model.CorporateName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CorporateName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CorporateDetails, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-7">
+                            @Html.EditorFor(model => model.CorporateDetails, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CorporateDetails, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br /><br />
+                    <div class="row remove-margin clearfix">
+                        <div class="text-center">
+                            @Html.ActionLink("Back", "Index", "", new { @class = "btn btn-info btn-raised" })
+                            <input type="submit" id="submit" name="button" value="SAVE CORPORATE" class="btnSubmit btn btn-default btn-raised" />
+                            <input type="submit" id="submit" name="button" value="SAVE & ADD NEW CORPORATE" class="btnSubmit btn btn-default btn-raised" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

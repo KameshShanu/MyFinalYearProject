@@ -1,0 +1,105 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.main-home-panel {
+    background-color: aquamarine;
+}
+/*new css to side bar*/
+.icon-nav {
+    width: 90px;
+    height: auto;
+    position: fixed;
+    top: 250px;
+    right: 0px;
+    overflow: hidden;
+    z-index: 40;
+}
+
+    .icon-nav a {
+        display: block;
+        float: right;
+        margin: 0;
+        outline: medium none;
+        overflow: hidden;
+        padding-top: 25px;
+        padding-bottom: 20px;
+        position: relative;
+        text-align: center;
+        transition: width 0.15s ease-in-out 0s;
+        z-index: 100;
+        cursor: pointer;
+        background-color:#e980f5;
+        width: 70px;
+        height: 70px;
+        color: white;
+        border: 1px solid #f5f5f5;
+    }
+
+        .icon-nav a:hover {
+            text-decoration:none;
+            background-color:#870895;
+            color: white;
+            width: 80px;
+        }
+
+        .icon-nav a .glyphicon {
+            font-size: 1.2em;
+        }
+
+        /*.icon-nav a:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .icon-nav a:last-child {
+            border-bottom-left-radius: 10px;
+        }*/
+.lbl-error {
+    color: #000000;
+}
+.lbl-success {
+    color: #34a853;
+}
+
+.lbl-status {
+    color: #ffc107;
+}
+
+/* Override the default boostrap behavior of modal  */
+
+.modal-header .close {
+    margin-top: -15px !important;
+    margin-right: -10px;
+    color:#fff !important;
+    opacity:0.8 !important;
+}
+
+.modal-footer {
+    border-top: 0.2px solid #ddd !important;
+    padding: 20px;
+}
+
+.modal-footer> .btn{
+    margin: 20px 5px 10px 5px !important;
+}

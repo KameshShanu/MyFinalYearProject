@@ -1,0 +1,465 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0118BF82-5E22-4847-80F7-1968BE0804FF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBStorage</RootNamespace>
+    <AssemblyName>DBStorage</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.1\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper.Mapper, Version=1.50.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.Mapper.1.50.1\lib\net451\Dapper.Mapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0-preview1\lib\net451\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Advertisements\AdvertisementCategoryRepository.cs" />
+    <Compile Include="Advertisements\AdvertisementItemRepository.cs" />
+    <Compile Include="Advertisements\SPRetrieveAdvertisement.cs" />
+    <Compile Include="BataRates\BataRateRepository.cs" />
+    <Compile Include="Client\ClientRepository.cs" />
+    <Compile Include="Common\Configuration\AdvertisementCategoryConfiguration.cs" />
+    <Compile Include="Common\Configuration\AdvertisementItemConfiguration.cs" />
+    <Compile Include="Common\Configuration\ArchiveTripConfiguration.cs" />
+    <Compile Include="Common\Configuration\BataRateConfiguration.cs" />
+    <Compile Include="Common\Configuration\ClientConfiguration.cs" />
+    <Compile Include="Common\Configuration\CorporateConfiguration.cs" />
+    <Compile Include="Common\Configuration\CustomBataConfiguration.cs" />
+    <Compile Include="Common\Configuration\DriverConfiguration.cs" />
+    <Compile Include="Common\Configuration\HelperConfiguration.cs" />
+    <Compile Include="Common\Configuration\PackagesListConfiguration.cs" />
+    <Compile Include="Common\Configuration\PreDefineTripConfiguration.cs" />
+    <Compile Include="Common\Configuration\RoleConfiguration.cs" />
+    <Compile Include="Common\Configuration\TripBataConfiguration.cs" />
+    <Compile Include="Common\Configuration\TripConfiguration.cs" />
+    <Compile Include="Common\Configuration\UserConfiguration.cs" />
+    <Compile Include="Common\Configuration\UserLogConfiguration.cs" />
+    <Compile Include="Common\Configuration\VehicleConfiguration.cs" />
+    <Compile Include="Common\Configuration\VehicleMaintenanceConfiguration.cs" />
+    <Compile Include="Common\Configuration\VehicleRateConfiguration.cs" />
+    <Compile Include="Common\WebClientWrapperBase.cs" />
+    <Compile Include="Common\WingsSeeder.cs" />
+    <Compile Include="Common\Repository.cs" />
+    <Compile Include="Corporates\CorporateRepository.cs" />
+    <Compile Include="Customers\CustomerRepository.cs" />
+    <Compile Include="DispatchNote\DispatchNoteRepository.cs" />
+    <Compile Include="Driver\DriverRepository.cs" />
+    <Compile Include="Driver\SPRetrieveDriversAdmin.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="GPS\GpsRepository.cs" />
+    <Compile Include="Helper\HelperRepository.cs" />
+    <Compile Include="IdentityConfigurations\ApplicationUserManager.cs" />
+    <Compile Include="IdentityConfigurations\IdentityModels.cs" />
+    <Compile Include="Invoice\InvoiceRepository.cs" />
+    <Compile Include="Migrations\201801031250107_IdentityRemoved.cs" />
+    <Compile Include="Migrations\201801031250107_IdentityRemoved.Designer.cs">
+      <DependentUpon>201801031250107_IdentityRemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801150934129_RemoveApplicationUserIdFromDriverTable.cs" />
+    <Compile Include="Migrations\201801150934129_RemoveApplicationUserIdFromDriverTable.Designer.cs">
+      <DependentUpon>201801150934129_RemoveApplicationUserIdFromDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151038163_RemoveFieldsFromDriverTable.cs" />
+    <Compile Include="Migrations\201801151038163_RemoveFieldsFromDriverTable.Designer.cs">
+      <DependentUpon>201801151038163_RemoveFieldsFromDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151124280_AddFieldsToDriverTable.cs" />
+    <Compile Include="Migrations\201801151124280_AddFieldsToDriverTable.Designer.cs">
+      <DependentUpon>201801151124280_AddFieldsToDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801151308300_AddHelperTable.cs" />
+    <Compile Include="Migrations\201801151308300_AddHelperTable.Designer.cs">
+      <DependentUpon>201801151308300_AddHelperTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801160634537_datatypechanged.cs" />
+    <Compile Include="Migrations\201801160634537_datatypechanged.Designer.cs">
+      <DependentUpon>201801160634537_datatypechanged.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801171010290_UpdateVehicleTable.cs" />
+    <Compile Include="Migrations\201801171010290_UpdateVehicleTable.Designer.cs">
+      <DependentUpon>201801171010290_UpdateVehicleTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801171120217_ClientAndOperationTypeTablesAdded_2.cs" />
+    <Compile Include="Migrations\201801171120217_ClientAndOperationTypeTablesAdded_2.Designer.cs">
+      <DependentUpon>201801171120217_ClientAndOperationTypeTablesAdded_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801171212203_ChangeColumnNameVehicleTable.cs" />
+    <Compile Include="Migrations\201801171212203_ChangeColumnNameVehicleTable.Designer.cs">
+      <DependentUpon>201801171212203_ChangeColumnNameVehicleTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801190805522_VehicleMaintenanceTablesAdded.cs" />
+    <Compile Include="Migrations\201801190805522_VehicleMaintenanceTablesAdded.Designer.cs">
+      <DependentUpon>201801190805522_VehicleMaintenanceTablesAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801191147324_ChangeDangerousLicenseExpDateIntoNullableInVehicleTable.cs" />
+    <Compile Include="Migrations\201801191147324_ChangeDangerousLicenseExpDateIntoNullableInVehicleTable.Designer.cs">
+      <DependentUpon>201801191147324_ChangeDangerousLicenseExpDateIntoNullableInVehicleTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801220948095_SetDataTimeColumnsAsNullableInVahicle.cs" />
+    <Compile Include="Migrations\201801220948095_SetDataTimeColumnsAsNullableInVahicle.Designer.cs">
+      <DependentUpon>201801220948095_SetDataTimeColumnsAsNullableInVahicle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801230751209_clientandoperationtyperemoved.cs" />
+    <Compile Include="Migrations\201801230751209_clientandoperationtyperemoved.Designer.cs">
+      <DependentUpon>201801230751209_clientandoperationtyperemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801230843463_clientAndOperationTypesAdded..cs" />
+    <Compile Include="Migrations\201801230843463_clientAndOperationTypesAdded..Designer.cs">
+      <DependentUpon>201801230843463_clientAndOperationTypesAdded..cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801231201154_RemoveVehicleandVehicleMaintainceTables.cs" />
+    <Compile Include="Migrations\201801231201154_RemoveVehicleandVehicleMaintainceTables.Designer.cs">
+      <DependentUpon>201801231201154_RemoveVehicleandVehicleMaintainceTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801231243481_AddedRelationshipforVehicleAndVehicleMaintenance.cs" />
+    <Compile Include="Migrations\201801231243481_AddedRelationshipforVehicleAndVehicleMaintenance.Designer.cs">
+      <DependentUpon>201801231243481_AddedRelationshipforVehicleAndVehicleMaintenance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801240746538_AddNewFieldsToClientTable.cs" />
+    <Compile Include="Migrations\201801240746538_AddNewFieldsToClientTable.Designer.cs">
+      <DependentUpon>201801240746538_AddNewFieldsToClientTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801240852527_RemoveOperationTypeTable.cs" />
+    <Compile Include="Migrations\201801240852527_RemoveOperationTypeTable.Designer.cs">
+      <DependentUpon>201801240852527_RemoveOperationTypeTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802021032126_RemoveDangerousLicenseNumberFromVehcileTable.cs" />
+    <Compile Include="Migrations\201802021032126_RemoveDangerousLicenseNumberFromVehcileTable.Designer.cs">
+      <DependentUpon>201802021032126_RemoveDangerousLicenseNumberFromVehcileTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802021043259_RemoveGoodsTypeFromVehcileTable.cs" />
+    <Compile Include="Migrations\201802021043259_RemoveGoodsTypeFromVehcileTable.Designer.cs">
+      <DependentUpon>201802021043259_RemoveGoodsTypeFromVehcileTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802021133144_AddDieselLitersColumnToVehcleMaintenanceTable.cs" />
+    <Compile Include="Migrations\201802021133144_AddDieselLitersColumnToVehcleMaintenanceTable.Designer.cs">
+      <DependentUpon>201802021133144_AddDieselLitersColumnToVehcleMaintenanceTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802050619451_AddedHighSecurityPassExpiryDateColomnToVehicleTable.cs" />
+    <Compile Include="Migrations\201802050619451_AddedHighSecurityPassExpiryDateColomnToVehicleTable.Designer.cs">
+      <DependentUpon>201802050619451_AddedHighSecurityPassExpiryDateColomnToVehicleTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802060716546_AddDescriptionColumnToVehicleTable.cs" />
+    <Compile Include="Migrations\201802060716546_AddDescriptionColumnToVehicleTable.Designer.cs">
+      <DependentUpon>201802060716546_AddDescriptionColumnToVehicleTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061053571_AddBasicandMinimumSalaryColumnsToDriverTable.cs" />
+    <Compile Include="Migrations\201802061053571_AddBasicandMinimumSalaryColumnsToDriverTable.Designer.cs">
+      <DependentUpon>201802061053571_AddBasicandMinimumSalaryColumnsToDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061118318_UpdateFirstNameColumnAsNameInDriverTable.cs" />
+    <Compile Include="Migrations\201802061118318_UpdateFirstNameColumnAsNameInDriverTable.Designer.cs">
+      <DependentUpon>201802061118318_UpdateFirstNameColumnAsNameInDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061232247_AddedPoliceReportExpiryDateColumnToDriverTable.cs" />
+    <Compile Include="Migrations\201802061232247_AddedPoliceReportExpiryDateColumnToDriverTable.Designer.cs">
+      <DependentUpon>201802061232247_AddedPoliceReportExpiryDateColumnToDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061223248_UpdateFirstNameColumnAsNameInHelperTable.cs" />
+    <Compile Include="Migrations\201802061223248_UpdateFirstNameColumnAsNameInHelperTable.Designer.cs">
+      <DependentUpon>201802061223248_UpdateFirstNameColumnAsNameInHelperTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061236227_AddBasicandMinimumSalaryColumnsToHelperTable.cs" />
+    <Compile Include="Migrations\201802061236227_AddBasicandMinimumSalaryColumnsToHelperTable.Designer.cs">
+      <DependentUpon>201802061236227_AddBasicandMinimumSalaryColumnsToHelperTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061258194_ContextChangeErrorResolve.cs" />
+    <Compile Include="Migrations\201802061258194_ContextChangeErrorResolve.Designer.cs">
+      <DependentUpon>201802061258194_ContextChangeErrorResolve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802061310079_AddedPoliceReportExpiryDateColumnToHelperTable.cs" />
+    <Compile Include="Migrations\201802061310079_AddedPoliceReportExpiryDateColumnToHelperTable.Designer.cs">
+      <DependentUpon>201802061310079_AddedPoliceReportExpiryDateColumnToHelperTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802070937541_RemoveHomeAddressColumnFromDriverTable.cs" />
+    <Compile Include="Migrations\201802070937541_RemoveHomeAddressColumnFromDriverTable.Designer.cs">
+      <DependentUpon>201802070937541_RemoveHomeAddressColumnFromDriverTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802070947225_RemoveHomeAddressColumnFromHelperTable.cs" />
+    <Compile Include="Migrations\201802070947225_RemoveHomeAddressColumnFromHelperTable.Designer.cs">
+      <DependentUpon>201802070947225_RemoveHomeAddressColumnFromHelperTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802140857052_AddedDispatchNoteTable.cs" />
+    <Compile Include="Migrations\201802140857052_AddedDispatchNoteTable.Designer.cs">
+      <DependentUpon>201802140857052_AddedDispatchNoteTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802140924529_AddedStatusColumnToDispathNoteTable.cs" />
+    <Compile Include="Migrations\201802140924529_AddedStatusColumnToDispathNoteTable.Designer.cs">
+      <DependentUpon>201802140924529_AddedStatusColumnToDispathNoteTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802141030399_invoiceEntityAdded.cs" />
+    <Compile Include="Migrations\201802141030399_invoiceEntityAdded.Designer.cs">
+      <DependentUpon>201802141030399_invoiceEntityAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802151134209_invoiceStatusColumnAdded..cs" />
+    <Compile Include="Migrations\201802151134209_invoiceStatusColumnAdded..Designer.cs">
+      <DependentUpon>201802151134209_invoiceStatusColumnAdded..cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802231132015_AddedClientDriverPorterCommissionRatesToDispatchTable..cs" />
+    <Compile Include="Migrations\201802231132015_AddedClientDriverPorterCommissionRatesToDispatchTable..Designer.cs">
+      <DependentUpon>201802231132015_AddedClientDriverPorterCommissionRatesToDispatchTable..cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802231214197_AddedIsPrintedColoumnToDispatchTable..cs" />
+    <Compile Include="Migrations\201802231214197_AddedIsPrintedColoumnToDispatchTable..Designer.cs">
+      <DependentUpon>201802231214197_AddedIsPrintedColoumnToDispatchTable..cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802260932055_AddedIsDispatchNoteReceivedAndIsGoodsDeliveredAndRemarksColoumnsToDispatchTable.cs" />
+    <Compile Include="Migrations\201802260932055_AddedIsDispatchNoteReceivedAndIsGoodsDeliveredAndRemarksColoumnsToDispatchTable.Designer.cs">
+      <DependentUpon>201802260932055_AddedIsDispatchNoteReceivedAndIsGoodsDeliveredAndRemarksColoumnsToDispatchTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803020927307_AddedInvoiceDispatchNoteTable.cs" />
+    <Compile Include="Migrations\201803020927307_AddedInvoiceDispatchNoteTable.Designer.cs">
+      <DependentUpon>201803020927307_AddedInvoiceDispatchNoteTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\WingsContext.cs" />
+    <Compile Include="Roles\RoleRepository.cs" />
+    <Compile Include="SP.cs" />
+    <Compile Include="Trips\ArchiveTripRepository.cs" />
+    <Compile Include="Trips\CustomBataRepository.cs" />
+    <Compile Include="Trips\PackageListRepository.cs" />
+    <Compile Include="Trips\PreDefineTripRepository.cs" />
+    <Compile Include="Trips\SPArchiveTripById.cs" />
+    <Compile Include="Trips\SPRetrieveArchiveTrip.cs" />
+    <Compile Include="Trips\SPRetrieveDriverWiseBata.cs" />
+    <Compile Include="Trips\SPRetrieveTripPage.cs" />
+    <Compile Include="Trips\SPArchiveTrip.cs" />
+    <Compile Include="Trips\SPRetrieveTrip.cs" />
+    <Compile Include="Trips\SPRetrieveTripReport.cs" />
+    <Compile Include="Trips\TripBataRepository.cs" />
+    <Compile Include="Trips\TripRepository.cs" />
+    <Compile Include="Trips\VehicleRateRepository.cs" />
+    <Compile Include="UserLog\LogUserRepository.cs" />
+    <Compile Include="Users\UserRepository.cs" />
+    <Compile Include="VehicleMaintenance\VehicleMaintenanceRepository.cs" />
+    <Compile Include="Vehicles\SPRetrieveVehiclesAdmin.cs" />
+    <Compile Include="Vehicles\VehicleRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomDataHelper\CustomDataHelper.csproj">
+      <Project>{E94FC4FC-5F33-4A0F-BF57-3FEB2215CAE8}</Project>
+      <Name>CustomDataHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{8dc00e0d-73b7-4467-9cb6-aa2c1e11ed16}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201801031250107_IdentityRemoved.resx">
+      <DependentUpon>201801031250107_IdentityRemoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801150934129_RemoveApplicationUserIdFromDriverTable.resx">
+      <DependentUpon>201801150934129_RemoveApplicationUserIdFromDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151038163_RemoveFieldsFromDriverTable.resx">
+      <DependentUpon>201801151038163_RemoveFieldsFromDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151124280_AddFieldsToDriverTable.resx">
+      <DependentUpon>201801151124280_AddFieldsToDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801151308300_AddHelperTable.resx">
+      <DependentUpon>201801151308300_AddHelperTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801160634537_datatypechanged.resx">
+      <DependentUpon>201801160634537_datatypechanged.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801171010290_UpdateVehicleTable.resx">
+      <DependentUpon>201801171010290_UpdateVehicleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801171120217_ClientAndOperationTypeTablesAdded_2.resx">
+      <DependentUpon>201801171120217_ClientAndOperationTypeTablesAdded_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801171212203_ChangeColumnNameVehicleTable.resx">
+      <DependentUpon>201801171212203_ChangeColumnNameVehicleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801190805522_VehicleMaintenanceTablesAdded.resx">
+      <DependentUpon>201801190805522_VehicleMaintenanceTablesAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801191147324_ChangeDangerousLicenseExpDateIntoNullableInVehicleTable.resx">
+      <DependentUpon>201801191147324_ChangeDangerousLicenseExpDateIntoNullableInVehicleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801220948095_SetDataTimeColumnsAsNullableInVahicle.resx">
+      <DependentUpon>201801220948095_SetDataTimeColumnsAsNullableInVahicle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801230751209_clientandoperationtyperemoved.resx">
+      <DependentUpon>201801230751209_clientandoperationtyperemoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801230843463_clientAndOperationTypesAdded..resx">
+      <DependentUpon>201801230843463_clientAndOperationTypesAdded..cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801231201154_RemoveVehicleandVehicleMaintainceTables.resx">
+      <DependentUpon>201801231201154_RemoveVehicleandVehicleMaintainceTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801231243481_AddedRelationshipforVehicleAndVehicleMaintenance.resx">
+      <DependentUpon>201801231243481_AddedRelationshipforVehicleAndVehicleMaintenance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801240746538_AddNewFieldsToClientTable.resx">
+      <DependentUpon>201801240746538_AddNewFieldsToClientTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801240852527_RemoveOperationTypeTable.resx">
+      <DependentUpon>201801240852527_RemoveOperationTypeTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802021032126_RemoveDangerousLicenseNumberFromVehcileTable.resx">
+      <DependentUpon>201802021032126_RemoveDangerousLicenseNumberFromVehcileTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802021043259_RemoveGoodsTypeFromVehcileTable.resx">
+      <DependentUpon>201802021043259_RemoveGoodsTypeFromVehcileTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802021133144_AddDieselLitersColumnToVehcleMaintenanceTable.resx">
+      <DependentUpon>201802021133144_AddDieselLitersColumnToVehcleMaintenanceTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802050619451_AddedHighSecurityPassExpiryDateColomnToVehicleTable.resx">
+      <DependentUpon>201802050619451_AddedHighSecurityPassExpiryDateColomnToVehicleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802060716546_AddDescriptionColumnToVehicleTable.resx">
+      <DependentUpon>201802060716546_AddDescriptionColumnToVehicleTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061053571_AddBasicandMinimumSalaryColumnsToDriverTable.resx">
+      <DependentUpon>201802061053571_AddBasicandMinimumSalaryColumnsToDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061118318_UpdateFirstNameColumnAsNameInDriverTable.resx">
+      <DependentUpon>201802061118318_UpdateFirstNameColumnAsNameInDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061232247_AddedPoliceReportExpiryDateColumnToDriverTable.resx">
+      <DependentUpon>201802061232247_AddedPoliceReportExpiryDateColumnToDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061223248_UpdateFirstNameColumnAsNameInHelperTable.resx">
+      <DependentUpon>201802061223248_UpdateFirstNameColumnAsNameInHelperTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061236227_AddBasicandMinimumSalaryColumnsToHelperTable.resx">
+      <DependentUpon>201802061236227_AddBasicandMinimumSalaryColumnsToHelperTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061258194_ContextChangeErrorResolve.resx">
+      <DependentUpon>201802061258194_ContextChangeErrorResolve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802061310079_AddedPoliceReportExpiryDateColumnToHelperTable.resx">
+      <DependentUpon>201802061310079_AddedPoliceReportExpiryDateColumnToHelperTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802070937541_RemoveHomeAddressColumnFromDriverTable.resx">
+      <DependentUpon>201802070937541_RemoveHomeAddressColumnFromDriverTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802070947225_RemoveHomeAddressColumnFromHelperTable.resx">
+      <DependentUpon>201802070947225_RemoveHomeAddressColumnFromHelperTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140857052_AddedDispatchNoteTable.resx">
+      <DependentUpon>201802140857052_AddedDispatchNoteTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140924529_AddedStatusColumnToDispathNoteTable.resx">
+      <DependentUpon>201802140924529_AddedStatusColumnToDispathNoteTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802141030399_invoiceEntityAdded.resx">
+      <DependentUpon>201802141030399_invoiceEntityAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802151134209_invoiceStatusColumnAdded..resx">
+      <DependentUpon>201802151134209_invoiceStatusColumnAdded..cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802231132015_AddedClientDriverPorterCommissionRatesToDispatchTable..resx">
+      <DependentUpon>201802231132015_AddedClientDriverPorterCommissionRatesToDispatchTable..cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802231214197_AddedIsPrintedColoumnToDispatchTable..resx">
+      <DependentUpon>201802231214197_AddedIsPrintedColoumnToDispatchTable..cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802260932055_AddedIsDispatchNoteReceivedAndIsGoodsDeliveredAndRemarksColoumnsToDispatchTable.resx">
+      <DependentUpon>201802260932055_AddedIsDispatchNoteReceivedAndIsGoodsDeliveredAndRemarksColoumnsToDispatchTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803020927307_AddedInvoiceDispatchNoteTable.resx">
+      <DependentUpon>201803020927307_AddedInvoiceDispatchNoteTable.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

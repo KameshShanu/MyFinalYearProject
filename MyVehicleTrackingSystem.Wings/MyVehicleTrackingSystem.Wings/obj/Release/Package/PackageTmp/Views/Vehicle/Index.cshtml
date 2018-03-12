@@ -1,0 +1,131 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.VehicleListViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("MultipleVehicleDelete", "Vehicle", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well margin-top-20 create-forms">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset class="scheduler-border">
+                    <p>
+                        @Html.ActionLink("Add New Vehicle", "Create", null, new { @class = "btn btn-default  btn-raised" })
+                    </p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="tbtr">
+                                <th>
+                                    <input type="checkbox" id="checkAll" />
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleNumber)
+                                </th>                                
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleDeliveryType)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleMake)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleModel)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" name="vehiclesToDelete" id="VehiclesToDelete" value="@item.VehicleId" />
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VehicleNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VehicleDeliveryType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VehicleMake)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.VehicleModel)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.VehicleId }, new { @class = "editbtn btn btn-default btn-raised" })
+                                        <br>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @Html.ActionLink("Back", "Gateway", "Vehicle", null, new { @class = "btn btn-raised btn-info" })
+                    <input type="submit" class="btn btn-raised btn-default trigger-btn" name="multipleDelete" data-toggle="modal" data-target="#myModal" value="Remove Vehicle(s)" />
+                </fieldset>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Confirmation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this record(s) ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" id="clearcheckbox" class="btn btn-raised btn-default trigger-btn" data-dismiss="modal" value="Close">
+                        <input type="submit" class="btn btn-raised btn-default trigger-btn" name="multipleDelete" value="Confirm Delete" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+@section Scripts {
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/paginathing.js"></script>
+    <script>
+        $(function () {
+            $("#checkAll").click(function () {
+                if ($("#checkAll").is(':checked')) {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", true);
+                    });
+
+                } else {
+                    $("input[type=checkbox]").each(function () {
+                        $(this).prop("checked", false);
+                    });
+                }
+            });
+        });
+
+        // Uncheck All Checkboxes
+        function uncheckAll() {
+            $("input[type='checkbox']:checked").prop("checked", false)
+        }
+        $('#clearcheckbox').on('click', uncheckAll)
+
+        //Add pagination fuctionality
+        jQuery(document).ready(function ($) {
+            for (var i = 1; i <= 500; i++) {
+                $('.list-group').append('<li class="list-group-item"> Item ' + i + '</li>');
+            }
+
+            $('.table tbody').paginathing({
+                limitPagination: false,
+                perPage: 10,
+                insertAfter: '.table',
+                containerClass: 'panel-footer'
+            });
+        });
+    </script>
+}

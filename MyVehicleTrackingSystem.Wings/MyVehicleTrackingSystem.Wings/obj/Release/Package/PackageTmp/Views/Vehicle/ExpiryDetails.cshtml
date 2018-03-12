@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Hypercent.Wings.Models.VehicleListViewModel>
+
+@{
+    ViewBag.Title = "ExpiryDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="row">
+    <div class="col-centered col-md-8">
+
+        <div class="well margin-top-20 create-forms">
+            <div class="form-horizontal">
+                <div class="formtitle row remove-margin form-heading">
+                    <div class="form-icon light-blue col-xs-2"><i class="fa fa-truck"></i></div>
+                    <div class="text-light-blue col-xs-10">Expiry Vehicle Details</div>
+                </div><br />
+                <div class="maincontent">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.VehicleNumber)
+                                </th>
+                                <th>
+                                    Expired Licenses
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.ActionLink(item.VehicleNumber, "Details", "Vehicle", new { id = item.VehicleId }, null)
+                                    </td>
+                                    <td>
+                                        @if (item.LicenseExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Revenue License - @item.LicenseExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.InsuranceExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Insurance Card - @item.InsuranceExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.GoodsExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Goods in Transit License - @item.GoodsExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.FireReportExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Fire Report - @item.FireReportExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.CalibrationReportExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Calibration Report - @item.CalibrationReportExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.EmissionTestExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Emission Test Report - @item.EmissionTestExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.VehicleFitnessExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Vehicle Fitness Report - @item.VehicleFitnessExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.DangerousLicenseExpDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>Dangerous Goods in Transportation License - @item.DangerousLicenseExpDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                        @if (item.HighSecurityPassExpiryDate <= DateTime.Now.AddMonths(1))
+                                        {
+                                            <span>High Security Pass Expiry Date - @item.HighSecurityPassExpiryDate.Value.ToString("yyyy-MM-dd")</span><br>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <div>
+                        @Html.ActionLink("Back", "Gateway", "Vehicle", "", new { @class = "btn btn-info btn-raised" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/paginathing.js"></script>
+    <script>
+        // Uncheck All Checkboxes
+        function uncheckAll() {
+            $("input[type='checkbox']:checked").prop("checked", false)
+        }
+        $('#clearcheckbox').on('click', uncheckAll)
+
+        //Add pagination fuctionality
+        jQuery(document).ready(function ($) {
+            for (var i = 1; i <= 500; i++) {
+                $('.list-group').append('<li class="list-group-item"> Item ' + i + '</li>');
+            }
+
+            $('.table tbody').paginathing({
+                limitPagination: false,
+                perPage: 10,
+                insertAfter: '.table',
+                containerClass: 'panel-footer'
+            });
+        });
+    </script>
+}
+
+
+
+
+
+

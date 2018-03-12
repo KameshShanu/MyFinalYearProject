@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="well margin-top-20 create-forms">
+            <div class="formtitle row remove-margin form-heading">
+                <div class="form-icon light-green col-xs-2"><i class="fa fa-file-o"></i></div>
+                <div class="text-light-green col-xs-10">Reports</div>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-centered col-md-12">
+                    <div class="reportmain col-md-3">
+                        <div class="repoimg">                          
+                        </div>
+                        <div class="circle">
+                            <img src="~/Content/Images/rep1.png" class="repimg" /></div><br />
+                        <div class="reportmaintitle"> 
+                            @Html.ActionLink("Daily Trips Report", "GeneratePDF", "Reports", new { viewName = "GenerateReport" }, new { @class ="reportname" })
+                        </div>                     
+                    </div>
+                    <div class="reportmain col-md-3 col-md-offset-1">
+                        <div class="repoimg">
+                        </div><div class="circle">
+                         <img src="~/Content/Images/rep2.png" class="repimg" />
+                        </div>
+                        <br />
+                        <div class="reportmaintitle">
+                            @Html.ActionLink("Daily Vehicle Performance Report", "GeneratePDF", "Reports", new { viewName = "GenerateVehicleReport" }, new { @class = "reportname" })
+                        </div>
+                    </div>
+                    <div class="reportmain col-md-3 col-md-offset-1">
+                        <div class="repoimg">
+                        </div>
+                        <div class="circle">
+                            <img src="~/Content/Images/rep3.png" class="repimg" /> </div>
+                            <br />
+                            <div class="reportmaintitle">
+                                @Html.ActionLink("Driver Wise Batta Report", "GeneratePDF", "Reports", new { viewName = "DriverWiseBataReport" }, new { @class = "reportname" })
+                            </div>
+                     </div>
+                </div>                                             
+            </div>
+            <br /><br />
+            <div>
+                @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-info btn-raised" })
+            </div>
+        </div>
+
+    </div>
+</div>

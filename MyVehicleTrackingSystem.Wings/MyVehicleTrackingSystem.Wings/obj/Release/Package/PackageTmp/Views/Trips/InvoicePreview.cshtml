@@ -1,0 +1,165 @@
+﻿@model Hypercent.Wings.Models.TripViewModel
+
+@{
+    ViewBag.Title = "InvoicePreview";
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/bootstrap")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<link href="~/Content/CustomStyleWings.css" rel="stylesheet" />
+<link rel='stylesheet' type='text/css' href='~/Content/InvoiceStyle.css' />
+<link rel='stylesheet' type='text/css' href='~/Content/InvoiceStylesPrint.css' media="print" />
+<body onload="window.print();">
+    <div>
+
+        <label name="VoucherNumber" id="VoucherNumber" style="position:absolute;left:590px;top:24px;font-size:small">@Model.VoucherNumber</label>
+        <label name="VehicleNumber" id="VehicleNumber" style="position:absolute;left:590px;top:72px;font-size:small">@Model.VehicleList.VehicleNumber</label>
+        <label name="Chauffeur" id="Chauffeur" style="position:absolute;left:590px;top:98px;font-size:small">@Model.DriverList.FirstName @Model.DriverList.LastName</label>
+
+         <label name="TimeOut" id="TimeOut" style="position:absolute;left:644px;top:175px;font-size:xx-small">@Model.TimeOut</label>
+  
+        <label name="GuestName" id="GuestName" style="position:absolute;left:160px;top:145px;font-size:small">@Model.GuestName</label>
+        <label name="RoomNumber" id="RoomNumber" style="position:absolute;left:160px;top:190px;font-size:small">@Model.RoomNumber</label>
+        <ul>
+            @foreach (var items in Model.PackagesList)
+            {
+                <li>
+                    <label name="PreDefineTripName" id="PreDefineTripName" style="width:300px; position:relative;left:180px;top:215px;font-size:xx-small; word-break:break-all;word-wrap:break-word;">@items.PreDefineTripName</label>
+                </li>
+            }
+        </ul>
+        <label name="CurrentMeterReading" id="CurrentMeterReading" style="position:absolute;left:480px;top:170px;font-size:small">@Model.VehicleList.CurrentMeterReading</label>
+    </div>
+    <div style="position:absolute;top:50px;right:950px">
+        @Html.ActionLink("Back", "Index", "Trips", null, new { @class = "btn btn-info noPrint" })
+        <a href="javascript:window.print()" class="btn btn-warning noPrint">Print Voucher</a>
+    </div>
+</body>
+@*<div id="page-wrap" style="width:100%">
+        <table class="table-bordered table">
+            <tbody>
+                <tr>
+                    <td>
+                        Transcend Drive
+                    </td>
+                    <td align="right">
+                        @Html.ActionLink("Back", "Index", "Trips", null, new { @class = "btn btn-info noPrint" })
+                        <a href="javascript:window.print()" class="btn btn-warning noPrint">Print Voucher</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="table-bordered table">
+                            <tbody>
+                                <tr>
+                                    <td>Guest Name</td>
+                                    <td>@Html.DisplayFor(model => model.GuestName)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Room Number</td>
+                                    <td>@Html.DisplayFor(model => model.RoomNumber)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Packages</td>
+                                    <td>
+                                        <ul>
+                                            @foreach (var items in Model.PackagesList)
+                                            {
+                                                <li>@Html.DisplayFor(modelItem => items.PreDefineTripName)</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Additional Mileage</td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Waiting Time</td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Signature Of Guest</td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+
+                    <td>
+                        <table class="table-bordered table">
+                            <tbody>
+                                <tr>
+                                    <td>Voucher Number</td>
+                                    <td>@Html.DisplayFor(m => m.VoucherNumber) - @Html.DisplayFor(m => m.DispatchedHotel)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Vehicle Number</td>
+                                    <td>@Html.DisplayFor(model => Model.VehicleList.VehicleNumber)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Chauffeur</td>
+                                    <td>@Html.DisplayFor(model => Model.DriverList.FirstName)</td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <table class="table-bordered table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Meter Reading Out</td>
+                                                    <td>@Html.DisplayFor(model => Model.VehicleList.CurrentMeterReading)</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Meter Reading In</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+
+                                    <td>
+                                        <table class="table-bordered table">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Time Out</td>
+                                                    @Html.DisplayFor(model => model.TimeOut, new { @Style ="position:absolute;left:1500px" })
+                                                    <label name="TimeOut" id="TimeOut" style="position:absolute;left:605px;top:205px;font-size:xx-small">@Model.TimeOut</label>
+                                                </tr>
+
+                                                <tr>
+                                                    <td>Time In</td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>Comments</td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>*@

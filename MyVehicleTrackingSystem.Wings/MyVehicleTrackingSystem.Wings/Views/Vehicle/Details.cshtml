@@ -1,0 +1,109 @@
+﻿@model MyVehicleTrackingSystem.Wings.Models.VehicleListViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="row">
+    <div class="col-centered col-md-8">
+
+        <div class="well margin-top-20 create-forms">
+
+            <div class="formtitle row remove-margin form-heading">
+                <div class="form-icon light-blue col-xs-2"><i class="fa fa-truck"></i></div>
+                <div class="text-light-blue col-xs-10">Vehicle Details</div>
+            </div>
+            <br>
+            <div class="maincontent">
+                <table  class="table table-bordered">
+                    <tr class="tbtr">
+                        <td>
+                            @Html.DisplayNameFor(model => model.VehicleNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.VehicleNumber)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.VehicleDeliveryType)
+                        </td>
+                        <td>
+                          @Html.DisplayFor(model => model.VehicleDeliveryType)
+                        </td>
+                    </tr>
+                    <tr class="tbtr">
+                        <td>
+                            @Html.DisplayNameFor(model => model.VehicleMake)
+                        </td>
+                        <td>
+                           @Html.DisplayFor(model => model.VehicleMake)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.VehicleModel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.VehicleModel)
+                        </td>
+                    </tr>
+                    <tr class="tbtr">
+                        <td>
+                            @Html.DisplayNameFor(model => model.VehicleMFYear)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.VehicleMFYear)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.EngineNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.EngineNumber)
+                        </td>
+                    </tr>
+                    <tr class="tbtr">
+                        <td>
+                            @Html.DisplayNameFor(model => model.ChassisNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.ChassisNumber)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.InsuranceNumber)
+                        </td>
+                        <td>
+                           @Html.DisplayFor(model => model.InsuranceNumber)
+                        </td>
+                    </tr>
+                    <tr class="tbtr">
+                        <td>
+                            @Html.DisplayNameFor(model => model.LicenseExpDate)
+                        </td>
+                        <td>
+                           @Html.DisplayFor(model => model.LicenseExpDate)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.EmissionTestExpDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.EmissionTestExpDate)
+                        </td>
+                    </tr>
+                </table>                           
+            <div>
+                @Html.ActionLink("Back", "ExpiryDetails", "", new { @class = "btn btn-info btn-raised" })
+            </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+          

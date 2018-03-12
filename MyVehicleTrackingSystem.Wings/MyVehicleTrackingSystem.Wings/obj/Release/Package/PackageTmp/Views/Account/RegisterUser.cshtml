@@ -1,0 +1,76 @@
+﻿@model Hypercent.Wings.Models.RegisterViewModel
+
+@{
+    ViewBag.Title = "Create User";
+}
+
+
+
+@using (Html.BeginForm("RegisterUser", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <br />
+    <div class="row margin-top-20">
+        <div class="col-md-5 well form-horizontal create-forms col-centered">
+            <div class="formtitle row remove-margin form-heading">
+                <div class="form-icon yellow col-xs-2"><i class="fa fa-user"></i></div>
+                <div class="text-yellow col-xs-10">@ViewBag.Title</div>
+            </div>
+            <br />@Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.RoleName, new List<SelectListItem> { new SelectListItem { Text = "Manager Admin", Value = "Manager Admin", Selected = true }, new SelectListItem { Text = "Junior Admin", Value = "Junior Admin" }, new SelectListItem { Text = "Dispatcher", Value = "Dispatcher" }, new SelectListItem { Text = "Accounting Staff", Value = "Accounting Staff" } }, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PhoneNumber, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-4 control-label" })
+                <div class="col-md-6">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="registerdiv col-md-12">
+                    @Html.ActionLink("Back", "UserIndex", "User", null, new { @class = "btn btn-info btn-raised" })
+                    <input type="submit" class="btn btn-default btn-raised" value="Register" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

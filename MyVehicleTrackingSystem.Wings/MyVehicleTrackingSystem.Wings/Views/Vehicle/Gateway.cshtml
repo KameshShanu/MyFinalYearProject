@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Manage Vehicle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br /><br /><br />
+<div class="row">
+    <div class="submain col-md-12 admin-functions">
+        <div class="col-md-12">
+            @*<h4 class="reporttitle">Vehicle Management</h4>*@
+            <div class="row padding-10-30  margin-sides-30">
+                <div class="margin-sides-30">
+                    
+                            <div class="subpanel col-md-4">
+                                <div class="panelmaintitle"><i style="color:#fff;" class="fa fa-truck fa-2x"></i></div><br /><br />                             
+                                    <div class="panel panel-default">
+                                        <a href="@Url.Action("Index", "Vehicle")">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-xs-2"></div>
+                                                    <div class="col-xs-10"><span>Manage Vehicle Details</span></div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>                                                         
+                            </div>
+                            <div class="subpanel col-md-4">
+                                <div class="panelmaintitle"><i style="color:#fff;" class="fa fa-gavel fa-2x"></i></div><br /><br />
+                                <div class="panel panel-default">
+                                    <a href="@Url.Action("Index", "VehicleMaintenance")">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-xs-2"></div>
+                                                <div class="col-xs-10"><span>Manage Vehicle Maintenance</span></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="subpanel col-md-4">
+                                
+                                <div class="panelmaintitle"><i style="color:#fff;" class="fa fa-clock-o fa-2x"></i><a data-toggle="modal" data-target="#myModal" class="notify"> <i class="notification fa fa-bell fa-lg"> <span class="badge">@ViewBag.ExpiryVehicleCount</span></i></a></div><br /><br />                                
+                                <div class="panel panel-default">
+                                    <a href="@Url.Action("ExpiryDetails", "Vehicle")">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-xs-2"></div>
+                                                <div class="col-xs-10"><span>Manage Vehicle Expiry</span></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>                                                                         
+                </div>
+            </div>
+        </div><br />
+        <div style="margin-left:35px">@Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-raised btn-info" })</div>
+      
+    </div>
+</div>
+

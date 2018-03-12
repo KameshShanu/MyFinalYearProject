@@ -1,0 +1,119 @@
+﻿@using Hypercent.Wings.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Navil Enterprises</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/CustomStyleWings.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Scripts/tag/chosen.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap-material-design.min.css" rel="stylesheet" />
+    <link href="~/Content/ripples.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/CustomReports.css" rel="stylesheet" />
+    <link href="~/Content/login.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Poiret+One" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="mainlogo col-md-12">
+                @*<img src="~/Content/Images/log.png" />*@
+              <h3 style="font-family: 'Poiret One', cursive;letter-spacing: 3px;color: #713e79;font-size: 35px;">Navil Enterprises</h3>
+            </div>
+        </div><br /><br />
+        <div class="">
+            <div class="row">
+                <div class="log col-md-5 col-centered white padding-all-20 create-forms">
+                    <div class="logtitle logo col-md-12">
+                        @*<img src="~/Content/Images/padlock.png" width="60" height="60" />*@
+                        <h4 style="letter-spacing:5px">LOGIN</h4>
+                    </div><br />
+                    <!--<h2>@ViewBag.Title.</h2>-->
+                    <div class="">
+                        <div class="">
+                            <div class="col-md-12" id="loginForm">
+                                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @*<h4 class="text-left">Log in</h4>*@
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                    if (Model != null && Model.isMailConfirmed == false )
+                                    {
+                                        <div class="text-danger">
+                                            Click <b><a href="\Account\ConfirmEmailSendLink">here</a></b> to confirm your email.
+                                        </div>
+                                    }
+                                    <div class="form-group ">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
+                                        <div class="col-md-8">
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <div class="checkbox">
+                                                @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-control" })
+                                                @Html.LabelFor(m => m.RememberMe, new { @class = "col-md-4 control-label" })
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                        @*<div class="form-group">
+                                                <div class="col-md-offset-4 col-md-8">
+                                                    @Html.DropDownListFor(m => m.HotelName, Model.HotelNameList, new { @class = "form-control dropdown-toggle",@onchange = "enableButton(this.value);", required = "required" })
+                                                </div>
+                                            </div>*@
+                                        <br />
+                                        <div class="centerdiv form-group">                                                                                           
+                                             <input type="submit" id="loginBtn" value="Log in" class="logbtn btn btn-raised btn-info" />                                                                                                                                              
+                                        </div>
+                                        <div class="centerdiv form-group">                                          
+                                             <a class="forgotlink" href="@Url.Action("ForgotPassword", "Account")">
+                                                Forgot Password
+                                              </a>                                            
+                                        </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="signup log col-md-5 col-centered white padding-all-20 create-forms">
+                @if (!ViewBag.IsSuperAdminExists)
+                {
+                    @Html.ActionLink("SignUp here", "Register", "Account", null, new { @class = "btn btn-raised" })
+                }
+            </div>
+        </div>
+    </div>
+    @*<div class="col-xs-12">
+            <footer class="bottom-fixed-footer footer-bg">
+                <p class="heading-xs">@DateTime.Now.Year - Leap Runner - Powered By Hypercent</p>
+            </footer>
+        </div>*@
+</body>
+</html>
+
+@Scripts.Render("~/Scripts/LeapRunner/User/login.js")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/material.min.js"></script>
+<script src="~/Scripts/ripples.min.js"></script>

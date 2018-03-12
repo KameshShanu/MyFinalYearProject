@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MyVehicleTrackingSystem.Wings.Models.BataRateViewModel>
+@{
+    ViewBag.Title = "BataIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("MultipleBataRateDelete", "BataRate", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="well margin-top-20 create-forms">
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <fieldset class="scheduler-border">
+                    <p>
+                        @Html.ActionLink("Add New Bata Rate", "CreateBataRate", null, new { @class = "btn btn-default  btn-raised" })
+                    </p>
+                    <table class="table table-bordered">
+                        <tr class="tbtr">
+                            <th>
+
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Amount)
+                            </th>
+                            <th>
+
+                            </th>
+                        </tr>
+                        @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="bataRateToDelete" id="bataRateToDelete" value="@item.BataId" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditBataRate", "BataRate", new { id = item.BataId }, new { @class = "editbtn btn btn-primary btn-raised" })
+                    </td>
+                </tr>
+                }
+                    </table>
+                    @Html.ActionLink("Back", "Index", "Home", null, new { @class = "btn btn-raised btn-info" })
+                    <input type="submit" class="btn btn-raised btn-default" name="multipleDelete" value="Remove Bata Rate(s)" />
+                </fieldset>
+            </div>
+
+        </div>
+    </div>
+}

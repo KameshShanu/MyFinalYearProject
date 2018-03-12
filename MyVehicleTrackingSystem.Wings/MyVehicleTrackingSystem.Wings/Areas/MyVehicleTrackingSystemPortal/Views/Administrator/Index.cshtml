@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row well margin-top-20 create-forms">
+    <div class="row remove-margin form-heading">
+        <div class="form-icon light-green col-xs-2"><i class="fa fa-file-o"></i></div>
+        <div class="text-light-green col-xs-10">Manage Vehicles / Drivers / Trips</div>
+    </div>
+    <div>
+        @Html.ActionLink("Back", "Index", "Home", new { area = "" }, new { @class = "btn btn-info btn-raised" })
+        @Html.ActionLink("Manage Vehicles", "ManageVehicles", "Administrator", null, new { @class = "btn btn-info btn-raised" })
+        @Html.ActionLink("Manage Drivers", "ManageDrivers", "Administrator", null, new { @class = "btn btn-info btn-raised" })
+        @Html.ActionLink("Manage Trips", "ManageTrips", "Administrator", null, new { @class = "btn btn-info btn-raised" })
+        @Html.ActionLink("Trips With Vehicle & Driver", "TripsWithVehicleAndDriver", "Administrator", null, new { @class = "btn btn-info btn-raised" })
+    </div>
+</div>

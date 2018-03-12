@@ -1,0 +1,9 @@
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\EmailUtility.dll
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\EmailUtility.pdb
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\RazorEngine.dll
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\System.Web.Razor.dll
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\RazorEngine.xml
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\bin\Release\System.Web.Razor.xml
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\obj\Release\EmailUtility.csprojResolveAssemblyReference.cache
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\obj\Release\EmailUtility.dll
+C:\Users\Kamesh\Documents\GitHub\Navil Enterprices\NavilEnterprises\Hypercent.Wings\EmailUtility\obj\Release\EmailUtility.pdb
