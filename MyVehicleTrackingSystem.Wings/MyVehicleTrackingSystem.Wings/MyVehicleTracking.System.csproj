@@ -711,8 +711,6 @@
     <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="Areas\MyVehicleTrackingSystemPortal\Models\" />
     <Folder Include="Areas\MyVehicleTrackingSystemPortal\Views\Shared\" />
-    <Folder Include="Views\Customer\" />
-    <Folder Include="Views\TripDetails\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
